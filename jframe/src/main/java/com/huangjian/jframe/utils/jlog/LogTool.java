@@ -1,4 +1,4 @@
-package com.huangjian.jframe.utils.logger;
+package com.huangjian.jframe.utils.jlog;
 
 public interface LogTool {
     void d(String tag, String message);

@@ -1,4 +1,4 @@
-package com.huangjian.jframe.utils.logger;
+package com.huangjian.jframe.utils.jlog;
 
 public final class Settings {
 
@@ -10,7 +10,7 @@ public final class Settings {
     /**
      * Determines how logs will printed
      */
-    private LogLevel logLevel = LogLevel.FULL;
+    private JLogLevel logLevel = JLogLevel.FULL;
 
     public Settings hideThreadInfo() {
         showThreadInfo = false;
@@ -37,11 +37,11 @@ public final class Settings {
      * Use {@link #logLevel}
      */
     @Deprecated
-    public Settings setLogLevel(LogLevel logLevel) {
+    public Settings setLogLevel(JLogLevel logLevel) {
         return logLevel(logLevel);
     }
 
-    public Settings logLevel(LogLevel logLevel) {
+    public Settings logLevel(JLogLevel logLevel) {
         this.logLevel = logLevel;
         return this;
     }
@@ -72,7 +72,7 @@ public final class Settings {
         return showThreadInfo;
     }
 
-    public LogLevel getLogLevel() {
+    public JLogLevel getLogLevel() {
         return logLevel;
     }
 

@@ -35,17 +35,17 @@ import com.huangjian.jframe.utils.http.https.HttpsCerManager;
  * Author:pengjianbo
  * Date:15/12/10 上午11:33
  */
-public class OkHttpFinal {
+public class JOkHttp {
 
     private OkHttpClient okHttpClient;
 
-    private static OkHttpFinal okHttpFinal;
-    private OkHttpFinalConfiguration configuration;
+    private static JOkHttp JOkHttp;
+    private JOkHttpConfiguration configuration;
 
-    private OkHttpFinal() {
+    private JOkHttp() {
     }
 
-    public synchronized void init(OkHttpFinalConfiguration configuration) {
+    public synchronized void init(JOkHttpConfiguration configuration) {
         this.configuration = configuration;
 
         long timeout = configuration.getTimeout();
@@ -91,17 +91,17 @@ public class OkHttpFinal {
         if(configuration.getProxy() != null){
             builder.proxy(configuration.getProxy());
         }
-        ILogger.DEBUG = configuration.isDebug();
+        //JLog.DEBUG = configuration.isDebug();
         Constants.DEBUG = configuration.isDebug();
 
         okHttpClient = builder.build();
     }
 
-    public static OkHttpFinal getInstance() {
-        if (okHttpFinal == null) {
-            okHttpFinal = new OkHttpFinal();
+    public static JOkHttp getInstance() {
+        if (JOkHttp == null) {
+            JOkHttp = new JOkHttp();
         }
-        return okHttpFinal;
+        return JOkHttp;
     }
 
     /**

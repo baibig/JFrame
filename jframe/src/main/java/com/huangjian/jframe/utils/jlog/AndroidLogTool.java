@@ -1,6 +1,12 @@
-package com.huangjian.jframe.utils.logger;
+package com.huangjian.jframe.utils.jlog;
 
 import android.util.Log;
+
+/**
+ * Description: 调用Android系统日志工具, 实现了LogTool接口
+ * Author: huangjian
+ * Date: 16/2/24 下午 1:41
+ */
 
 public class AndroidLogTool implements LogTool {
     @Override

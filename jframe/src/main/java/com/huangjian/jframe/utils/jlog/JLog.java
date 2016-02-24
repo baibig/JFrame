@@ -1,49 +1,35 @@
-/*
- * Copyright (C) 2015 彭建波(pengjianbo@finalteam.cn), Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.huangjian.jframe.utils.http;
-
+package com.huangjian.jframe.utils.jlog;
 
 import com.huangjian.jframe.BuildConfig;
-import com.huangjian.jframe.utils.logger.LoggerFactory;
-import com.huangjian.jframe.utils.logger.LoggerPrinter;
-import com.huangjian.jframe.utils.logger.Printer;
-import com.huangjian.jframe.utils.logger.Settings;
 
 /**
- * Desction:
- * Author:pengjianbo
- * Date:2016/2/2 0002 12:49
+ * Description: JLog is a wrapper of {@link android.util.Log},but more pretty, simple and powerful
+ * 即可以格式化显示,也可以格式化message
+ * Usage: JLog.t(tag).d("abc%s %3d", "wert", 5);
+ * Or JLog.d("abc%s %3d", "wert", 5);
+ * Author: huangjian
+ * Date: 16/2/24
  */
-class ILogger {
-    public static final String DEFAULT_TAG = "OkHttpFinal";
-    protected static boolean DEBUG = BuildConfig.DEBUG;
-    private static LoggerPrinter printer;
+public final class JLog {
+
+    public static final String DEFAULT_TAG = "JLog";
+    private static boolean DEBUG;
+    private static JLogPrinter printer;
 
     //no instance
-    private ILogger() {
-        printer = LoggerFactory.getFactory(DEFAULT_TAG, DEBUG);
+    private JLog() {
+        printer = JLogFactory.getPrinter(DEFAULT_TAG, DEBUG);
     }
 
     private static void createInstance(){
         if (printer == null){
-            new ILogger();
+            new JLog();
         }
     }
 
+    public static void init(boolean debug) {
+        DEBUG = debug;
+    }
     public static void clear() {
         createInstance();
         printer.clear();
@@ -54,11 +40,21 @@ class ILogger {
         return printer.getSettings();
     }
 
+    /**
+     * 设置log的tag
+     * @param tag
+     * @return
+     */
     public static Printer t(String tag) {
         createInstance();
         return printer.t(tag, printer.getSettings().getMethodCount());
     }
 
+    /**
+     * 设置方法调用栈深度,默认是3
+     * @param methodCount
+     * @return
+     */
     public static Printer t(int methodCount) {
         createInstance();
         return printer.t(null, methodCount);
@@ -69,11 +65,21 @@ class ILogger {
         return printer.t(tag, methodCount);
     }
 
+    /**
+     * Log.d 输出debug信息
+     * @param message 要输出到终端的信息,可以格式化显示,如"abc%5d%s"
+     * @param args 格式化参数
+     */
     public static void d(String message, Object... args) {
         createInstance();
         printer.d(message, args);
     }
 
+    /**
+     * 同上
+     * see{@link #d(String, Object...)}
+     * @param throwable 抛出的异常信息
+     */
     public static void e(Throwable throwable) {
         createInstance();
         printer.e(throwable);
@@ -110,7 +116,7 @@ class ILogger {
     }
 
     /**
-     * Formats the json content and print it
+     * 格式化输出json数据
      *
      * @param json the json content
      */
@@ -120,7 +126,7 @@ class ILogger {
     }
 
     /**
-     * Formats the json content and print it
+     * 格式化输出xml数据
      *
      * @param xml the xml content
      */
@@ -128,4 +134,5 @@ class ILogger {
         createInstance();
         printer.xml(xml);
     }
+
 }

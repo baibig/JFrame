@@ -35,6 +35,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huangjian.jframe.utils.JsonFormatUtils;
 import com.huangjian.jframe.utils.StringUtils;
+import com.huangjian.jframe.utils.jlog.JLog;
 
 
 /**
@@ -70,7 +71,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
         //将请求的URL及参数组合成一个唯一请求
         HttpTaskHandler.getInstance().addTask(this.requestKey, this);
 
-        okHttpClient = OkHttpFinal.getInstance().getOkHttpClient();
+        okHttpClient = JOkHttp.getInstance().getOkHttpClient();
     }
 
     public String getUrl() {
@@ -133,7 +134,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             builder.url(url).tag(srcUrl).headers(headers);
             Request request = builder.build();
             if (Constants.DEBUG) {
-                ILogger.d("url=" + srcUrl + "?" + params.toString());
+                JLog.d("url=" + srcUrl + "?" + params.toString());
             }
             Call call = okHttpClient.newCall(request);
             OkHttpCallManager.getInstance().addCall(url, call);
@@ -141,7 +142,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             response = call.execute();
         } catch (Exception e) {
             if (Constants.DEBUG) {
-                ILogger.e("Exception=%s", e);
+                JLog.e("Exception=%s", e);
             }
             if (e instanceof SocketTimeoutException) {
                 responseData.setTimeout(true);
@@ -206,14 +207,14 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             if (responseData.isSuccess()) {//成功的请求
                 String respBody = responseData.getResponse();
                 if (Constants.DEBUG) {
-                    ILogger.d("url=" + url + "\n result=" + JsonFormatUtils.formatJson(respBody));
+                    JLog.d("url=" + url + "\n result=" + JsonFormatUtils.formatJson(respBody));
                 }
                 parseResponseBody(responseData, callback);
             } else {//请求失败
                 int code = responseData.getCode();
                 String msg = responseData.getMessage();
                 if (Constants.DEBUG) {
-                    ILogger.d("url=" + url + "\n response failure code=" + code + " msg=" + msg);
+                    JLog.d("url=" + url + "\n response failure code=" + code + " msg=" + msg);
                 }
                 if (code == 504) {
                     if (callback != null) {
@@ -234,7 +235,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
                 }
             } else {
                 if (Constants.DEBUG) {
-                    ILogger.d("url=" + url + "\n response empty");
+                    JLog.d("url=" + url + "\n response empty");
                 }
                 if (callback != null) {
                     callback.onFailure(BaseHttpRequestCallback.ERROR_RESPONSE_UNKNOWN, "http exception");
@@ -275,7 +276,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             try {
                 jsonObject = JSON.parseObject(result);
             } catch (Exception e) {
-                ILogger.e(e);
+                JLog.e(e);
             }
             if (jsonObject != null) {
                 callback.onSuccess(responseData.getHeaders(), jsonObject);
@@ -287,7 +288,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             try {
                 jsonArray = JSON.parseArray(result);
             } catch (Exception e) {
-                ILogger.e(e);
+                JLog.e(e);
             }
 
             if (jsonArray != null) {
@@ -300,7 +301,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             try {
                 obj = JSON.parseObject(result, callback.type);
             } catch (Exception e) {
-                ILogger.e(e);
+                JLog.e(e);
             }
             if (obj != null) {
                 callback.onSuccess(responseData.getHeaders(), obj);

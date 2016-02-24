@@ -1,4 +1,4 @@
-package com.huangjian.jframe.utils.logger;
+package com.huangjian.jframe.utils.jlog;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -18,10 +18,10 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 /**
- * Logger is a wrapper for logging utils
+ * JLog is a wrapper for logging utils
  * But more pretty, simple and powerful
  */
-public final class LoggerPrinter implements Printer {
+public final class JLogPrinter implements Printer {
 
     private static final int DEBUG = 3;
     private static final int ERROR = 6;
@@ -50,15 +50,12 @@ public final class LoggerPrinter implements Printer {
     /**
      * Drawing toolbox
      */
-    private static final char TOP_LEFT_CORNER = '╔';
-    private static final char BOTTOM_LEFT_CORNER = '╚';
-    private static final char MIDDLE_CORNER = '╟';
-    private static final char HORIZONTAL_DOUBLE_LINE = '║';
-    private static final String DOUBLE_DIVIDER = "════════════════════════════════════════════";
+    private static final String DOUBLE_DIVIDER_RIGHT = ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+    private static final String DOUBLE_DIVIDER_LEFT = "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
     private static final String SINGLE_DIVIDER = "────────────────────────────────────────────";
-    private static final String TOP_BORDER = TOP_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER;
-    private static final String BOTTOM_BORDER = BOTTOM_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER;
-    private static final String MIDDLE_BORDER = MIDDLE_CORNER + SINGLE_DIVIDER + SINGLE_DIVIDER;
+    private static final String TOP_BORDER =  DOUBLE_DIVIDER_RIGHT + DOUBLE_DIVIDER_RIGHT;
+    private static final String BOTTOM_BORDER =  DOUBLE_DIVIDER_LEFT + DOUBLE_DIVIDER_LEFT;
+    private static final String MIDDLE_BORDER =  SINGLE_DIVIDER + SINGLE_DIVIDER;
 
     /**
      * tag is used for the Log, the name is a little different
@@ -80,7 +77,7 @@ public final class LoggerPrinter implements Printer {
     /**
      * It is used to change the tag
      *
-     * @param tag is the given string which will be used in Logger
+     * @param tag is the given string which will be used in JLog
      */
 //    @Override
     protected Settings init(String tag) {
@@ -219,7 +216,7 @@ public final class LoggerPrinter implements Printer {
      * This method is synchronized in order to avoid messy of logs' order.
      */
     private synchronized void log(int logType, String msg, Object... args) {
-        if (settings.getLogLevel() == LogLevel.NONE) {
+        if (settings.getLogLevel() == JLogLevel.NONE) {
             return;
         }
         String tag = getTag();
@@ -258,7 +255,7 @@ public final class LoggerPrinter implements Printer {
     private void logHeaderContent(int logType, String tag, int methodCount) {
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
         if (settings.isShowThreadInfo()) {
-            logChunk(logType, tag, HORIZONTAL_DOUBLE_LINE + " Thread: " + Thread.currentThread().getName());
+            logChunk(logType, tag, " Thread: " + Thread.currentThread().getName());
             logDivider(logType, tag);
         }
         String level = "";
@@ -276,7 +273,7 @@ public final class LoggerPrinter implements Printer {
                 continue;
             }
             StringBuilder builder = new StringBuilder();
-            builder.append("║ ")
+            builder.append(" ")
                     .append(level)
                     .append(getSimpleClassName(trace[stackIndex].getClassName()))
                     .append(".")
@@ -303,7 +300,7 @@ public final class LoggerPrinter implements Printer {
     private void logContent(int logType, String tag, String chunk) {
         String[] lines = chunk.split(System.getProperty("line.separator"));
         for (String line : lines) {
-            logChunk(logType, tag, HORIZONTAL_DOUBLE_LINE + " " + line);
+            logChunk(logType, tag, " " + line);
         }
     }
 
@@ -384,7 +381,7 @@ public final class LoggerPrinter implements Printer {
         for (int i = MIN_STACK_OFFSET; i < trace.length; i++) {
             StackTraceElement e = trace[i];
             String name = e.getClassName();
-            if (!name.equals(LoggerPrinter.class.getName()) && !name.equals(Logger.class.getName())) {
+            if (!name.equals(JLogPrinter.class.getName()) && !name.equals(JLog.class.getName())) {
                 return --i;
             }
         }

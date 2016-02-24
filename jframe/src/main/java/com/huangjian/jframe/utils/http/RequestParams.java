@@ -30,6 +30,7 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.huangjian.jframe.utils.StringUtils;
+import com.huangjian.jframe.utils.jlog.JLog;
 
 
 /**
@@ -62,13 +63,13 @@ public class RequestParams {
     private void init() {
         headers.add("charset", "UTF-8");
 
-        List<Part> commonParams = OkHttpFinal.getInstance().getCommonParams();
+        List<Part> commonParams = JOkHttp.getInstance().getCommonParams();
         if (commonParams != null && commonParams.size() > 0){
             params.addAll(commonParams);
         }
 
         //添加公共header
-        Headers commonHeaders = OkHttpFinal.getInstance().getCommonHeaders();
+        Headers commonHeaders = JOkHttp.getInstance().getCommonHeaders();
         if ( commonHeaders != null && commonHeaders.size() > 0 ) {
             for (int i = 0; i < commonHeaders.size(); i++) {
                 String key = commonHeaders.name(i);
@@ -159,7 +160,7 @@ public class RequestParams {
         try {
             mediaType = MediaType.parse(contentType);
         } catch (Exception e){
-            ILogger.e(e);
+            JLog.e(e);
         }
 
         addFormDataPart(key, new FileWrapper(file, mediaType));

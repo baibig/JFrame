@@ -39,7 +39,7 @@ import com.huangjian.jframe.utils.StringUtils;
  * Author:pengjianbo
  * Date:2016/1/28 0028 14:33
  */
-public class OkHttpFinalConfiguration {
+public class JOkHttpConfiguration {
 
     private List<Part> commonParams;
     protected Headers commonHeaders;
@@ -58,7 +58,7 @@ public class OkHttpFinalConfiguration {
     private List<Interceptor> networkInterceptorList;
     private List<Interceptor> interceptorList;
 
-    private OkHttpFinalConfiguration(final Builder builder) {
+    private JOkHttpConfiguration(final Builder builder) {
         this.commonParams = builder.commonParams;
         this.commonHeaders = builder.commonHeaders;
         this.certificateList = builder.certificateList;
@@ -297,8 +297,8 @@ public class OkHttpFinalConfiguration {
             return this;
         }
 
-        public OkHttpFinalConfiguration build() {
-            return new OkHttpFinalConfiguration(this);
+        public JOkHttpConfiguration build() {
+            return new JOkHttpConfiguration(this);
         }
     }
 

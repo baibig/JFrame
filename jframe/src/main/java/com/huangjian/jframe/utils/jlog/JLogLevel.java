@@ -1,6 +1,6 @@
-package com.huangjian.jframe.utils.logger;
+package com.huangjian.jframe.utils.jlog;
 
-public enum LogLevel {
+public enum JLogLevel {
 
     /**
      * Prints all logs
