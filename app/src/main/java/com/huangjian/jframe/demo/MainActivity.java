@@ -26,5 +26,11 @@ public class MainActivity extends AppCompatActivity {
                 IntentUtils.sendIntent(MainActivity.this, JLogTestActivity.class);
             }
         });
+        findViewById(R.id.btn_http_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.sendIntent(MainActivity.this, HttpTestActivity.class);
+            }
+        });
     }
 }

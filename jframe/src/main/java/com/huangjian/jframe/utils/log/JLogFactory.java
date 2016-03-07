@@ -1,4 +1,4 @@
-package com.huangjian.jframe.utils.jlog;
+package com.huangjian.jframe.utils.log;
 
 /**
  * Desction:日志工厂类

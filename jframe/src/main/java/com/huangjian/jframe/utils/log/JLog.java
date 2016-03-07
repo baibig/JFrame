@@ -1,6 +1,4 @@
-package com.huangjian.jframe.utils.jlog;
-
-import com.huangjian.jframe.BuildConfig;
+package com.huangjian.jframe.utils.log;
 
 /**
  * Description: JLog is a wrapper of {@link android.util.Log},but more pretty, simple and powerful

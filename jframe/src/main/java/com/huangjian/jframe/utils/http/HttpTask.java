@@ -35,7 +35,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huangjian.jframe.utils.JsonFormatUtils;
 import com.huangjian.jframe.utils.StringUtils;
-import com.huangjian.jframe.utils.jlog.JLog;
+import com.huangjian.jframe.utils.log.JLog;
 
 
 /**

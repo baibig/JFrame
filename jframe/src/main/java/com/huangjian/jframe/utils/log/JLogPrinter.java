@@ -1,4 +1,4 @@
-package com.huangjian.jframe.utils.jlog;
+package com.huangjian.jframe.utils.log;
 
 import java.io.StringReader;
 import java.io.StringWriter;

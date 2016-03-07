@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.huangjian.jframe.utils.jlog.JLog;
+import com.huangjian.jframe.utils.log.JLog;
 
 public class JLogTestActivity extends AppCompatActivity {
 

@@ -30,7 +30,7 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.huangjian.jframe.utils.StringUtils;
-import com.huangjian.jframe.utils.jlog.JLog;
+import com.huangjian.jframe.utils.log.JLog;
 
 
 /**

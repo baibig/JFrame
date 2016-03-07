@@ -20,7 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 
 /**
  * Desction:
- * Author:pengjianbo
+ * Author:huangjian
  * Date:15/12/10 下午8:14
  */
 public class JsonHttpRequestCallback extends BaseHttpRequestCallback<JSONObject> {
