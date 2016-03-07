@@ -1,4 +1,4 @@
-package com.huangjian.jframe.utils.cache;
+package com.huangjian.jframe.utils.cache.modelcache;
 
 import java.util.Map;
 

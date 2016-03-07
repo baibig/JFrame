@@ -14,7 +14,7 @@ import com.huangjian.jframe.utils.cache.modelcache.IBaseCacheModel;
  * Created by huangjian.
  * 
  * 缓存的统一管理
- * 根据缓存数据类型使用合适的方式进行存储
+ * 根据缓存数据类型使用合适的方式进行存储,包括diskcache和sharedpreference cache
  */
 public class JCacheManager {
 

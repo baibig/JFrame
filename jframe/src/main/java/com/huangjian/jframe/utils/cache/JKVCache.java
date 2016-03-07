@@ -10,7 +10,7 @@ import java.io.InputStream;
 /**
  * Created by huangjian.
  * 
- * key value存储数据的cache
+ * key value存储数据的cache,底层是DiskLruCache
  */
 public class JKVCache {
 

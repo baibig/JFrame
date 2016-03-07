@@ -6,7 +6,6 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.huangjian.jframe.utils.cache.SharePreferenceUtil;
 
 public class LightModelCache extends SharePreferenceUtil implements IModelCache {
 

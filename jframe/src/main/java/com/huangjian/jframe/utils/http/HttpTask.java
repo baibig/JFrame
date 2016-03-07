@@ -33,7 +33,7 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.huangjian.jframe.utils.JsonFormatUtils;
+import com.huangjian.jframe.utils.JsonUtils;
 import com.huangjian.jframe.utils.StringUtils;
 import com.huangjian.jframe.utils.log.JLog;
 
@@ -207,7 +207,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             if (responseData.isSuccess()) {//成功的请求
                 String respBody = responseData.getResponse();
                 if (Constants.DEBUG) {
-                    JLog.d("url=" + url + "\n result=" + JsonFormatUtils.formatJson(respBody));
+                    JLog.d("url=" + url + "\n result=" + JsonUtils.formatJson(respBody));
                 }
                 parseResponseBody(responseData, callback);
             } else {//请求失败

@@ -13,7 +13,7 @@ import com.huangjian.jframe.utils.cache.modelcache.LightModelCache;
 /**
  * Created by huangjian.
  * 
- * model相关存储
+ * model相关存储,底层是sharedpreference
  *
  */
 public class JModelCache {
