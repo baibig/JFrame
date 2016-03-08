@@ -1,4 +1,4 @@
-package com.huangjian.jframe.ui;
+package com.huangjian.jframe.ui.view;
 
 import android.app.DatePickerDialog;
 import android.content.Context;

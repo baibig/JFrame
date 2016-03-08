@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="blue">#00ccff</color>
+    <color name="blue_pressed">#00abd6</color>
+    <color name="blue_light">#71e3ff</color>
+    <color name="blue_light_alpha_60">#9971e3ff</color>
+    <color name="blue_light_plus">#f0fcff</color>
+    <color name="blue_light_alpha_50">#8000ccff</color>
+
+    <color name="deep_blue">#219ee1</color>
+    <color name="deep_blue_af">#0aaaff</color>
+
+    <color name="purple">#6089c6</color>
+    <color name="purple_light">#6e9ce0</color>
+
+    <color name="red">#cb3535</color>
+    <color name="red_light">#cf5a5a</color>
+
+    <color name="orange">#ffa800</color>
+    <color name="orange_light">#fdca14</color>
+    <color name="orange_light_plus">#ffe65d</color>
+
+    <color name="green_light">#80c678</color>
+    <color name="green">#46c637</color>
+
+    <!--主要文字-->
+    <color name="black_33">#333333</color>
+    <!--副标题 label-->
+    <color name="gray_99">#999999</color>
+    <!--分隔线颜色  hint-->
+    <color name="gray_dd">#dddddd</color>
+    <color name="white">#ffffff</color>
+    <!--卡片式标题-->
+    <color name="grey_f8">#f8f8f8</color>
+    <color name="black_40">#404040</color>
+    <!--背景-->
+    <color name="gray_f0">#f0f0f0</color>
+    <color name="transparent">#00000000</color>
+    <color name="translucent_black_33">#33000000</color>
+    <color name="translucent_white_33">#33ffffff</color>
+    <color name="translucent_black_66">#66000000</color>
+    <color name="translucent_white_66">#66ffffff</color>
+
+
+    <!-- 按钮颜色 -->
+    <color name="btn_white">@color/white</color>
+    <color name="btn_white_disable">@color/gray_dd</color>
+    <color name="btn_white_pressed">@color/gray_dd</color>
+    <color name="btn_blue">@color/blue</color>
+    <color name="btn_blue_disable">@color/blue_light_alpha_50</color>
+    <color name="btn_blue_pressed">@color/blue_pressed</color>
+    <color name="btn_deep_blue">@color/deep_blue_af</color>
+    <color name="btn_deep_blue_disable">@color/deep_blue</color>
+    <color name="btn_deep_blue_pressed">@color/deep_blue</color>
+    <color name="btn_confirm">#5000ccff</color>
+    <color name="btn_confirm_disable">#00ccff</color>
+    <color name="btn_confirm_pressed">#00ccff</color>
+    <color name="btn_orange">@color/orange</color>
+    <color name="btn_orange_disable">@color/orange_light</color>
+    <color name="btn_orange_pressed">@color/orange_light</color>
+    <color name="btn_green">@color/green_light</color>
+    <color name="btn_green_disable">@color/green</color>
+    <color name="btn_green_pressed">@color/green</color>
+    <color name="btn_red">@color/red</color>
+    <color name="btn_red_disable">@color/red_light</color>
+    <color name="btn_red_pressed">@color/red_light</color>
+    <!-- 文字颜色 -->
+    <color name="text_black_33">@color/black_33</color>
+    <color name="text_black_99">@color/gray_99</color>
+    <color name="text_black_dd">@color/gray_dd</color>
+    <color name="text_black_pressed">@color/gray_dd</color>
+    <color name="text_black_disable">@color/gray_dd</color>
+    <color name="text_blue">@color/blue</color>
+    <color name="text_blue_pressed">@color/blue_light</color>
+    <color name="text_blue_disable">@color/blue_light</color>
+    <color name="text_white">@color/white</color>
+    <color name="text_white_pressed">@color/gray_dd</color>
+    <color name="text_white_disable">@color/gray_dd</color>
+    <color name="text_orange">@color/orange</color>
+    <color name="text_orange_disable">@color/orange_light</color>
+    <color name="text_orange_pressed">@color/orange_light</color>
+    <color name="text_green">@color/green_light</color>
+    <color name="text_green_disable">@color/green</color>
+    <color name="text_green_pressed">@color/green</color>
+    <color name="text_red">@color/red</color>
+    <color name="text_red_disable">@color/red_light</color>
+    <color name="text_red_pressed">@color/red_light</color>
+</resources>

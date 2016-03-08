@@ -1,4 +1,4 @@
-package com.huangjian.jframe.ui;
+package com.huangjian.jframe.ui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
