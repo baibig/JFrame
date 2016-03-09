@@ -32,6 +32,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Description: 设备相关工具类
@@ -264,6 +266,35 @@ public class DeviceUtils {
         }
 
         return udid;
+    }
+
+    /**
+     * 获取cpu核心数
+     * @return
+     */
+    public static int getNumCores() {
+        try {
+            //Get directory containing CPU info
+            File dir = new File("/sys/devices/system/cpu/");
+            //Filter to only list the devices we care about
+            File[] files = dir.listFiles(new FileFilter(){
+
+                @Override
+                public boolean accept(File pathname) {
+                    //Check if filename is "cpu", followed by a single digit number
+                    if(Pattern.matches("cpu[0-9]", pathname.getName())) {
+                        return true;
+                    }
+                    return false;
+                }
+
+            });
+            //Return the number of cores (virtual CPU devices)
+            return files.length;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return 1;
+        }
     }
 
     /**
