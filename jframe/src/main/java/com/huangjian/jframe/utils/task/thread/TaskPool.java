@@ -49,7 +49,7 @@ public class TaskPool {
      */
     private TaskPool() {
         result = new HashMap<String,Object>();
-        mExecutorService = ThreadFactory.getExecutorService();
+        mExecutorService = JThreadFactory.getExecutorService();
     }
 
     /**

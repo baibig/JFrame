@@ -63,7 +63,7 @@ public class TaskQueue extends Thread {
         taskItemList = new LinkedList<TaskItem>();
         result = new HashMap<String,Object>();
         //从线程池中获取
-        Executor mExecutorService  = ThreadFactory.getExecutorService();
+        Executor mExecutorService  = JThreadFactory.getExecutorService();
         mExecutorService.execute(this);
     }
 

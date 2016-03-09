@@ -16,7 +16,7 @@ import android.os.Process;
  * Author: huangjian
  * Date: 16/3/9 下午1:48.
  */
-public class ThreadFactory {
+public class JThreadFactory {
 
     /** 任务执行器. */
     public static Executor mExecutorService = null;
