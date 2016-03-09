@@ -8,19 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.huangjian.jframe.utils.adapter.ViewHolderAdapter.ViewHolder;
+import com.huangjian.jframe.utils.adapter.JViewHolderAdapter.ViewHolder;
 
 /**
- * Desction:
- * Author:pengjianbo
+ * Desction: list和grid适配器,重写onCreateViewHolder和onBindViewHolder,拓展自己的viewHolder类
+ * Author:huangjian
  * Date:15/12/22 下午6:00
  */
-public abstract class ViewHolderAdapter<VH extends ViewHolder, T> extends BaseAdapter {
+public abstract class JViewHolderAdapter<VH extends ViewHolder, T> extends BaseAdapter {
     private Context mContext;
     private List<T> mList;
     private LayoutInflater mInflater;
 
-    public ViewHolderAdapter(Context context, List<T> list) {
+    public JViewHolderAdapter(Context context, List<T> list) {
         this.mContext = context;
         this.mList= list;
         this.mInflater = LayoutInflater.from(mContext);
@@ -55,9 +55,27 @@ public abstract class ViewHolderAdapter<VH extends ViewHolder, T> extends BaseAd
         return holder.view;
     }
 
+    /**
+     * 创建ViewHolder
+     * @param parent
+     * @param position
+     * @return
+     */
     public abstract VH onCreateViewHolder(ViewGroup parent, int position);
+
+    /**
+     * viewholder与视图绑定
+     * @param holder
+     * @param position
+     */
     public abstract void onBindViewHolder(VH holder, int position);
 
+    /**
+     * 创建视图,在onCreateViewHolder中使用
+     * @param resLayout 布局ID
+     * @param parent
+     * @return
+     */
     public View inflate(int resLayout, ViewGroup parent) {
         return mInflater.inflate(resLayout, parent, false);
     }

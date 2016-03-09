@@ -8,18 +8,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 /**
  * Desction:
- * Author:pengjianbo
+ * Author:huangjian
  * Date:15/12/22 下午6:14
  */
-public class FragmentAdapter extends FragmentPagerAdapter {
+public class JFragmentAdapter extends FragmentPagerAdapter {
     private List<String> mTabList;
     private List<Fragment> mFragmentList;
 
-    public FragmentAdapter(FragmentManager fm, List<Fragment> list) {
+    public JFragmentAdapter(FragmentManager fm, List<Fragment> list) {
         this(fm, list, null);
     }
 
-    public FragmentAdapter(FragmentManager fm, List<Fragment> list, List<String> tabList) {
+    public JFragmentAdapter(FragmentManager fm, List<Fragment> list, List<String> tabList) {
         super(fm);
         this.mFragmentList = list;
         this.mTabList = tabList;
@@ -32,6 +32,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
+        if (mFragmentList == null) {
+            return 0;
+        }
         return mFragmentList.size();
     }
 
