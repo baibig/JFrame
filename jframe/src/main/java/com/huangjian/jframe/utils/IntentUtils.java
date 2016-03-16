@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by huangjian on 16/2/22.
  *
  * 与intent相关的一些工具
- * 包括打电话,发短信
+ *
  */
 public class IntentUtils {
     /**
