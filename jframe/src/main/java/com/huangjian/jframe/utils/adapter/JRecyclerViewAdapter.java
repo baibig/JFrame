@@ -55,13 +55,13 @@ public abstract class JRecyclerViewAdapter<T> extends RecyclerView.Adapter{
 
     /**
      * 子类复写该方法传入item的id
-     * 支持多布局,根据item类型确定布局
+     * @// TODO: 2016/3/25  支持多布局,根据item类型确定布局
      *
      * @return
      */
     public abstract int getItemLayoutID(int position);
 
-    class InnerViewHolder extends RecyclerView.ViewHolder {
+    public class InnerViewHolder extends RecyclerView.ViewHolder {
 
         private SparseArray<View> views = new SparseArray<View>();
         private View convertView;
@@ -88,7 +88,7 @@ public abstract class JRecyclerViewAdapter<T> extends RecyclerView.Adapter{
 
     }
 
-    public Object getItem(int position) {
+    public T getItem(int position) {
         if (position >= data.size())
             return null;
         return data.get(position);

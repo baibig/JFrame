@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".GlideTestActivity" />
         <activity android:name=".JLogTestActivity" />
-        <activity android:name=".HttpTestActivity"></activity>
+        <activity android:name=".HttpTestActivity" />
+        <activity android:name=".ListTestActivity"></activity>
     </application>
 
 </manifest>

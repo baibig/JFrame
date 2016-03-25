@@ -32,5 +32,11 @@ public class MainActivity extends AppCompatActivity {
                 IntentUtils.sendIntent(MainActivity.this, HttpTestActivity.class);
             }
         });
+        findViewById(R.id.btn_list_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentUtils.sendIntent(MainActivity.this, ListTestActivity.class);
+            }
+        });
     }
 }
