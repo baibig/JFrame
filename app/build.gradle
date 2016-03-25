@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-def cfg = rootProject.ext.configuration
-def libs = rootProject.ext.libraries
+def cfg = configuration
+def libs = libraries
 android {
     compileSdkVersion cfg.compileVersion
     buildToolsVersion cfg.buildToolsVersion

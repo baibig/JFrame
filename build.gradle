@@ -1,4 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: "config.gradle"
 buildscript {
     repositories {
         jcenter()
@@ -19,30 +20,4 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-// sdk配置和常用库配置
-ext {
-    configuration = [
-            package          : "com.huangjian.jframe.demo",
-            buildToolsVersion: "23.0.2",
-            compileVersion   : 23,
-            minSdk           : 14,
-            targetSdk        : 23,
-            version_code     : 1,
-            version_name     : "0.0.1",
-    ]
-
-    libraries = [
-            glide             : "com.github.bumptech.glide:glide:3.7.0",
-            glide_transformation : "jp.wasabeef:glide-transformations:1.3.1",
-            gson              : "com.google.code.gson:gson:2.6.2",
-            okhttp            : "com.squareup.okhttp3:okhttp:3.1.2",
-            fastjson          : "com.alibaba:fastjson:1.1.46.android",
-
-            supportV4         : "com.android.support:support-v4:23.1.1",
-            supportV7         : "com.android.support:appcompat-v7:23.1.1",
-            supportRecyclerView : "com.android.support:recyclerview-v7:23.1.1"
-
-
-    ]
 }
