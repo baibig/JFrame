@@ -21,7 +21,9 @@
         <activity android:name=".GlideTestActivity" />
         <activity android:name=".JLogTestActivity" />
         <activity android:name=".HttpTestActivity" />
-        <activity android:name=".ListTestActivity"></activity>
+        <activity android:name=".RecyclerViewTestActivity" />
+        <activity android:name=".ListTestActivity" />
+        <activity android:name=".ListViewTestActivity"></activity>
     </application>
 
 </manifest>

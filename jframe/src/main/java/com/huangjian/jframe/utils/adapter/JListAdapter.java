@@ -29,8 +29,9 @@ public abstract class JListAdapter< T> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if ( convertView == null ) {
-            holder = new ViewHolder(LayoutInflater.from(mContext).inflate(getItemLayoutID(position), viewGroup, false));
-            holder.convertView.setTag(holder);
+            convertView = LayoutInflater.from(mContext).inflate(getItemLayoutID(position), viewGroup, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -74,7 +75,7 @@ public abstract class JListAdapter< T> extends BaseAdapter {
         return position;
     }
 
-    public static class ViewHolder {
+    public class ViewHolder {
         private SparseArray<View> mViews;
         private View convertView;
         public ViewHolder(View view) {
