@@ -30,7 +30,7 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.huangjian.jframe.utils.StringUtils;
-import com.huangjian.jframe.utils.log.JLog;
+import com.huangjian.jframe.utils.Timber;
 
 
 /**
@@ -160,7 +160,7 @@ public class RequestParams {
         try {
             mediaType = MediaType.parse(contentType);
         } catch (Exception e){
-            JLog.e(e);
+            Timber.e(e, null);
         }
 
         addFormDataPart(key, new FileWrapper(file, mediaType));

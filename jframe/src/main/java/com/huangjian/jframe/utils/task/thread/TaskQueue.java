@@ -3,7 +3,7 @@ package com.huangjian.jframe.utils.task.thread;
 import android.os.Handler;
 import android.os.Message;
 
-import com.huangjian.jframe.utils.log.JLog;
+import com.huangjian.jframe.utils.Timber;
 import com.huangjian.jframe.utils.task.TaskItem;
 import com.huangjian.jframe.utils.task.TaskListListener;
 import com.huangjian.jframe.utils.task.TaskObjectListener;
@@ -141,7 +141,7 @@ public class TaskQueue extends Thread {
                         this.wait();
                     }
                 } catch (InterruptedException e) {
-                    JLog.e("TaskQueue", "收到线程中断请求");
+                    Timber.tag("TaskQueue").e("收到线程中断请求");
                     e.printStackTrace();
                     //被中断的是退出就结束，否则继续
                     if (quit) {

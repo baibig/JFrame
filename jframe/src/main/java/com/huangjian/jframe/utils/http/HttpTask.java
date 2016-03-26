@@ -35,10 +35,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huangjian.jframe.utils.JsonUtils;
 import com.huangjian.jframe.utils.StringUtils;
-import com.huangjian.jframe.utils.log.JLog;
+import com.huangjian.jframe.utils.Timber;
 
 
-/**
+ /**
  * Desction:Http请求Task
  * Author:pengjianbo
  * Date:15/7/3 上午11:14
@@ -134,7 +134,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             builder.url(url).tag(srcUrl).headers(headers);
             Request request = builder.build();
             if (Constants.DEBUG) {
-                JLog.d("url=" + srcUrl + "?" + params.toString());
+                Timber.d(", nullurl=" + srcUrl + "?" + params.toString());
             }
             Call call = okHttpClient.newCall(request);
             OkHttpCallManager.getInstance().addCall(url, call);
@@ -142,7 +142,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             response = call.execute();
         } catch (Exception e) {
             if (Constants.DEBUG) {
-                JLog.e("Exception=%s", e);
+                Timber.e(", nullException=%s", e);
             }
             if (e instanceof SocketTimeoutException) {
                 responseData.setTimeout(true);
@@ -207,14 +207,14 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             if (responseData.isSuccess()) {//成功的请求
                 String respBody = responseData.getResponse();
                 if (Constants.DEBUG) {
-                    JLog.d("url=" + url + "\n result=" + JsonUtils.formatJson(respBody));
+                    Timber.d(", nullurl=" + url + "\n result=" + JsonUtils.formatJson(respBody));
                 }
                 parseResponseBody(responseData, callback);
             } else {//请求失败
                 int code = responseData.getCode();
                 String msg = responseData.getMessage();
                 if (Constants.DEBUG) {
-                    JLog.d("url=" + url + "\n response failure code=" + code + " msg=" + msg);
+                    Timber.d(", nullurl=" + url + "\n response failure code=" + code + " msg=" + msg);
                 }
                 if (code == 504) {
                     if (callback != null) {
@@ -235,7 +235,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
                 }
             } else {
                 if (Constants.DEBUG) {
-                    JLog.d("url=" + url + "\n response empty");
+                    Timber.d(", nullurl=" + url + "\n response empty");
                 }
                 if (callback != null) {
                     callback.onFailure(BaseHttpRequestCallback.ERROR_RESPONSE_UNKNOWN, "http exception");
@@ -276,7 +276,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             try {
                 jsonObject = JSON.parseObject(result);
             } catch (Exception e) {
-                JLog.e(e);
+                Timber.e(e, null);
             }
             if (jsonObject != null) {
                 callback.onSuccess(responseData.getHeaders(), jsonObject);
@@ -288,7 +288,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             try {
                 jsonArray = JSON.parseArray(result);
             } catch (Exception e) {
-                JLog.e(e);
+                Timber.e(e, null);
             }
 
             if (jsonArray != null) {
@@ -301,7 +301,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
             try {
                 obj = JSON.parseObject(result, callback.type);
             } catch (Exception e) {
-                JLog.e(e);
+                Timber.e(e, null);
             }
             if (obj != null) {
                 callback.onSuccess(responseData.getHeaders(), obj);

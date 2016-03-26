@@ -25,18 +25,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_log_json"
-        android:text="json"
-        android:onClick="logJson"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_log_xml"
-        android:text="xml"
-        android:onClick="logXml"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/btn_log_file"
         android:text="WTF"
         android:onClick="logWTF"/>
