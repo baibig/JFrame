@@ -1,7 +1,5 @@
-package com.huangjian.jframe.utils.cache;
+package com.huangjian.jframe.utils.cache.diskcache;
 
-
-import com.huangjian.jframe.utils.cache.diskcache.DiskCache;
 
 import java.io.File;
 import java.io.InputStream;

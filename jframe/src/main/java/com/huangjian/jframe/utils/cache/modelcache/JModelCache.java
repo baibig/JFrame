@@ -3,51 +3,47 @@ package com.huangjian.jframe.utils.cache.modelcache;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class LightModelCache extends SharePreferenceUtil implements IModelCache {
+/**
+ * created by huangjian 2016/3/28
+ * 轻量级的cache，底层是sharedPreference，用Gson格式化，可保存对象。
+ */
+
+public class JModelCache extends SharePreferenceUtil {
 
 	private Gson mGson = null;
-	public LightModelCache(Context context, String cacheFilename) {
+
+	public JModelCache(Context context, String cacheFilename) {
 		super(context, cacheFilename);
+		mGson = new Gson();
 	}
 
-	public LightModelCache(Context context) {
-		super(context);
-	}
-	
-	public void setGson(Gson gson) {
-		this.mGson = gson;
-	}
-	
-	@Override
-	public <T extends IBaseCacheModel> boolean putModel(String key, T model) {
+	public <T> boolean putModel(String key, T model) {
 		if (model == null || key == null) return false;
 		String value = this.mGson.toJson(model);
 
 		return putString(key, value);
 	}
-	
-	@Override
-	public <T extends IBaseCacheModel> boolean putModelList(String key, List<T> modelList) {
+
+	public <T> boolean putModelList(String key, List<T> modelList) {
 		if (modelList == null || key == null) return false;
 		String value = this.mGson.toJson(modelList);
 
 		return putString(key, value);
 	}
-	
-	@Override
-	public <T extends IBaseCacheModel> T getModel(String key, Class<T> clazz) {
+
+	public <T> T getModel(String key, Class<T> clazz) {
 		if (key == null) throw new NullPointerException("key must not null.");
 		String value = getStringValue(key, null);
 		if (value == null) return null;
 		return this.mGson.fromJson(value, clazz);
 	}
-	
-	@Override
-	public <T extends IBaseCacheModel> List<T> getModelList(String key, TypeToken<List<T>> typeToken) {
+
+	public <T> List<T> getModelList(String key, TypeToken<List<T>> typeToken) {
 		if (key == null) throw new NullPointerException("key must not null.");
 		String value = getStringValue(key, null);
 		if (value == null) return null;
@@ -56,10 +52,16 @@ public class LightModelCache extends SharePreferenceUtil implements IModelCache 
 		return list;
 	}
 
-	@Override
 	public boolean removeModel(String key) {
 		if (key == null) return false;
 		return super.delete(key);
 	}
+
+    public boolean contains(String key) {
+        if (TextUtils.isEmpty(key)) {
+            return false;
+        }
+        return super.contains(key);
+    }
 
 }

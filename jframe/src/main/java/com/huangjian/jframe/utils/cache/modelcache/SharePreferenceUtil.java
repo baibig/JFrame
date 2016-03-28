@@ -4,7 +4,6 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 public class SharePreferenceUtil {
 
 	private SharedPreferences settings;

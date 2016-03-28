@@ -8,7 +8,8 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import com.google.gson.reflect.TypeToken;
-import com.huangjian.jframe.utils.cache.modelcache.IBaseCacheModel;
+import com.huangjian.jframe.utils.cache.diskcache.JKVCache;
+import com.huangjian.jframe.utils.cache.modelcache.JModelCache;
 
 /**
  * Created by huangjian.
@@ -164,7 +165,7 @@ public class JCacheManager {
      * @param model 数据model
      * @return 是否成功
      */
-    public <T extends IBaseCacheModel> boolean putModel(String key, T model) {
+    public <T> boolean putModel(String key, T model) {
         return mModelCache.putModel(key, model);
     }
 
@@ -175,7 +176,7 @@ public class JCacheManager {
      * @param modelList 数据model列表
      * @return 是否成功
      */
-    public <T extends IBaseCacheModel> boolean putModelList(String key, List<T> modelList) {
+    public <T> boolean putModelList(String key, List<T> modelList) {
         return mModelCache.putModelList(key, modelList);
     }
 
@@ -186,7 +187,7 @@ public class JCacheManager {
      * @param clazz 数据model类型
      * @return 是否成功
      */
-    public <T extends IBaseCacheModel> T getModel(String key, Class<T> clazz) {
+    public <T> T getModel(String key, Class<T> clazz) {
         try {
             return mModelCache.getModel(key, clazz);
         } catch (Exception e) {
@@ -201,7 +202,7 @@ public class JCacheManager {
      * @param typeToken 数据model类型
      * @return 是否成功
      */
-    public <T extends IBaseCacheModel> List<T> getModelList(String key, TypeToken<List<T>> typeToken) {
+    public <T> List<T> getModelList(String key, TypeToken<List<T>> typeToken) {
         try {
             return mModelCache.getModelList(key, typeToken);
         } catch (Exception e) {
