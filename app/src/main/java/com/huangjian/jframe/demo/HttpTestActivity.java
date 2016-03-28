@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.huangjian.jframe.utils.http.FileDownloadCallback;
 import com.huangjian.jframe.utils.http.HttpRequest;
 import com.huangjian.jframe.utils.http.StringHttpRequestCallback;
-import com.huangjian.jframe.utils.Timber;
+import com.huangjian.jframe.utils.JLogger;
 
 import java.io.File;
 
@@ -34,25 +34,25 @@ public class HttpTestActivity extends AppCompatActivity {
             @Override
             public void onStart() {
                 super.onStart();
-                Timber.tag(TAG).d("onStart");
+                JLogger.tag(TAG).d("onStart");
             }
 
             @Override
             protected void onSuccess(String s) {
                 super.onSuccess(s);
-                Timber.tag(TAG).d("onSuccess\nmessage: %s", s);
+                JLogger.tag(TAG).d("onSuccess\nmessage: %s", s);
             }
 
             @Override
             public void onFailure(int errorCode, String msg) {
                 super.onFailure(errorCode, msg);
-                Timber.tag(TAG).d("errorCode : %d \nmsg : %s", errorCode, msg);
+                JLogger.tag(TAG).d("errorCode : %d \nmsg : %s", errorCode, msg);
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Timber.tag(TAG).d("onFinish");
+                JLogger.tag(TAG).d("onFinish");
             }
         });
     }
@@ -65,7 +65,7 @@ public class HttpTestActivity extends AppCompatActivity {
             @Override
             public void onStart() {
                 super.onStart();
-                Timber.tag(TAG).d("onStart");
+                JLogger.tag(TAG).d("onStart");
             }
 
             //下载进度

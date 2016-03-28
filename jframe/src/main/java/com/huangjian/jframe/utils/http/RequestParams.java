@@ -29,9 +29,8 @@ import okhttp3.RequestBody;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.huangjian.jframe.utils.JLogger;
 import com.huangjian.jframe.utils.StringUtils;
-import com.huangjian.jframe.utils.Timber;
-
 
 /**
  * Desction:Http请求参数类
@@ -160,7 +159,7 @@ public class RequestParams {
         try {
             mediaType = MediaType.parse(contentType);
         } catch (Exception e){
-            Timber.e(e, null);
+            JLogger.e(e, null);
         }
 
         addFormDataPart(key, new FileWrapper(file, mediaType));

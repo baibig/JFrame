@@ -2,7 +2,7 @@ package com.huangjian.jframe.utils.router.tools;
 
 import android.util.Log;
 
-import com.huangjian.jframe.utils.Timber;
+import com.huangjian.jframe.utils.JLogger;
 import com.huangjian.jframe.utils.router.utils.UrlUtils;
 
 import java.util.ArrayList;
@@ -99,11 +99,11 @@ public class ActivityRouteRuleBuilder extends BaseRouteRuleBuilder {
             if(seg.startsWith(":")){
                 Matcher matcher = p.matcher(seg);
                 if(!matcher.matches()){
-                    Timber.w("The key format not match : %s" , seg);
+                    JLogger.w("The key format not match : %s" , seg);
                     return false;
                 }
                 if(checkedSegs.contains(seg)){
-                    Timber.w("The key is duplicated : %s" , seg);
+                    JLogger.w("The key is duplicated : %s" , seg);
                     return false;
                 }
                 checkedSegs.add(seg);

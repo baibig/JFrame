@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.huangjian.jframe.BuildConfig;
-import com.huangjian.jframe.utils.Timber;
+import com.huangjian.jframe.utils.JLogger;
 import com.huangjian.jframe.utils.router.exception.InvalidRoutePathException;
 import com.huangjian.jframe.utils.router.exception.InvalidValueTypeException;
 import com.huangjian.jframe.utils.router.exception.RouteNotFoundException;
@@ -51,7 +51,7 @@ public class ActivityRouter extends BaseRouter {
         for(String pathRule : mRouteTable.keySet()){
             boolean isValid = ActivityRouteRuleBuilder.isActivityRuleValid(pathRule);
             if(!isValid){
-                Timber.e(new InvalidRoutePathException(pathRule), "");
+                JLogger.e(new InvalidRoutePathException(pathRule), "");
                 mRouteTable.remove(pathRule);
             }
         }
@@ -109,7 +109,7 @@ public class ActivityRouter extends BaseRouter {
                     openForResult(aRoute, aRoute.getFragment(), aRoute.getRequestCode());
                     break;
                 default:
-                    Timber.e("Error Open Type");
+                    JLogger.e("Error Open Type");
             }
         }
 
@@ -125,7 +125,7 @@ public class ActivityRouter extends BaseRouter {
         try {
             Intent intent = match(route);
             if(intent == null){
-                Timber.e(new RouteNotFoundException(route.getUrl()), "");
+                JLogger.e(new RouteNotFoundException(route.getUrl()), "");
                 return;
             }
 
@@ -140,7 +140,7 @@ public class ActivityRouter extends BaseRouter {
                 route.getActivity().overridePendingTransition(route.getInAnimation(), route.getOutAnimation());
             }
         } catch (Exception e){
-            Timber.e(e, "");
+            JLogger.e(e, "");
         }
     }
 
@@ -153,7 +153,7 @@ public class ActivityRouter extends BaseRouter {
             }
             activity.startActivityForResult(intent, requestCode);
         } catch (Exception e){
-            Timber.e(e, "");
+            JLogger.e(e, "");
         }
     }
 
@@ -166,7 +166,7 @@ public class ActivityRouter extends BaseRouter {
             }
             fragment.startActivityForResult(intent, requestCode);
         } catch (Exception e){
-            Timber.e(e, "");
+            JLogger.e(e, "");
         }
     }
 
@@ -179,7 +179,7 @@ public class ActivityRouter extends BaseRouter {
             }
             fragment.startActivityForResult(intent, requestCode);
         } catch (Exception e){
-            Timber.e(e, "");
+            JLogger.e(e, "");
         }
     }
 

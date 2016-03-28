@@ -2,7 +2,7 @@ package com.huangjian.jframe.demo;
 
 import android.app.Application;
 
-import com.huangjian.jframe.utils.Timber;
+import com.huangjian.jframe.utils.JLogger;
 import com.huangjian.jframe.utils.http.JOkHttp;
 import com.huangjian.jframe.utils.http.JOkHttpConfiguration;
 
@@ -15,7 +15,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Timber.plant(new Timber.DebugTree());
+        JLogger.initial();
         JOkHttpConfiguration.Builder builder = new JOkHttpConfiguration.Builder();
         builder.setDebug(BuildConfig.DEBUG);
         JOkHttp.getInstance().init(builder.build());

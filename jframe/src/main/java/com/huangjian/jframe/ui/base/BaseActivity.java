@@ -3,9 +3,7 @@ package com.huangjian.jframe.ui.base;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
-import com.huangjian.jframe.utils.ActivityManager;
-import com.huangjian.jframe.utils.Timber;
+import com.huangjian.jframe.utils.JLogger;
 
 /**
  * Description:对activity的简单封装,提供了getView来简化findViewById,并提供了构建框架
@@ -63,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         try {
             return (E) findViewById(id);
         } catch (ClassCastException ex) {
-            Timber.e(ex, "Could not cast View to concrete class.");
+            JLogger.e(ex, "Could not cast View to concrete class.");
             throw ex;
         }
     }
