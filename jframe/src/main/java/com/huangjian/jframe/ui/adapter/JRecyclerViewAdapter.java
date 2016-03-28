@@ -1,4 +1,4 @@
-package com.huangjian.jframe.utils.adapter;
+package com.huangjian.jframe.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

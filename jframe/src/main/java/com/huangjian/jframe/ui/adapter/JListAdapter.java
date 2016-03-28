@@ -1,4 +1,4 @@
-package com.huangjian.jframe.utils.adapter;
+package com.huangjian.jframe.ui.adapter;
 
 import java.util.List;
 
@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
-import com.huangjian.jframe.utils.adapter.JListAdapter.ViewHolder;
 
 /**
  * Desction: list和grid适配器,重写getItemLayoutID和onBindViewHolder

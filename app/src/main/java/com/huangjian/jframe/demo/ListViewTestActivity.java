@@ -8,7 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huangjian.jframe.utils.adapter.JListAdapter;
+import com.huangjian.jframe.ui.adapter.JListAdapter;
 import com.huangjian.jframe.utils.image.JImageView;
 
 import java.util.ArrayList;

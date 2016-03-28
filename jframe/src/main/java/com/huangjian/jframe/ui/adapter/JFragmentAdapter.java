@@ -1,4 +1,4 @@
-package com.huangjian.jframe.utils.adapter;
+package com.huangjian.jframe.ui.adapter;
 
 import java.util.List;
 

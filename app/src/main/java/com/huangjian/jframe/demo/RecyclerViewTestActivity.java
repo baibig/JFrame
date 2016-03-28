@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huangjian.jframe.utils.adapter.JRecyclerViewAdapter;
+import com.huangjian.jframe.ui.adapter.JRecyclerViewAdapter;
 import com.huangjian.jframe.utils.image.JImageView;
 
 import java.util.ArrayList;
