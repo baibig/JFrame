@@ -8,7 +8,7 @@ import java.util.List;
  * Description:
  * Author: huangjian
  * Date: 16/3/9 下午1:44.
- * @// TODO: 2016/3/29 刷新进度问题 
+ * @// TODO: 2016/3/29 刷新进度问题
  */
 public class JTask extends AsyncTask<TaskItem, Integer, TaskItem> {
 

@@ -1,7 +1,5 @@
 package com.huangjian.jframe.utils.task.thread;
 
-import android.os.Handler;
-
 import com.huangjian.jframe.utils.JLogger;
 import com.huangjian.jframe.utils.task.TaskItem;
 import com.huangjian.jframe.utils.task.TaskListListener;
@@ -29,20 +27,17 @@ public class TaskQueue extends Thread {
     /**  存放返回的任务结果. */
     private HashMap<String,Object> result;
 
-    private Handler handler;
-
     /**
-     *
-     * 构造.
+     * 单例
      * @return
      */
-    public static TaskQueue getInstance(Handler handler) {
+    public static TaskQueue getInstance() {
         TaskQueue tmp = mInstance;
         if (tmp == null) {
             synchronized (TaskQueue.class) {
                 tmp = mInstance;
                 if (tmp == null) {
-                    tmp = new TaskQueue(handler);
+                    tmp = new TaskQueue();
                     mInstance = tmp;
                 }
             }
@@ -53,9 +48,8 @@ public class TaskQueue extends Thread {
     /**
      * 构造执行线程队列.
      */
-    private TaskQueue(Handler handler) {
+    private TaskQueue() {
         quit = false;
-        this.handler = handler;
         taskItemList = new LinkedList<TaskItem>();
         result = new HashMap<String,Object>();
         //从线程池中获取
@@ -119,20 +113,15 @@ public class TaskQueue extends Thread {
                             item.getListener().get();
                             result.put(item.toString(), null);
                         }
-                        //交由UI线程处理
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(item.getListener() instanceof TaskListListener){
-                                    ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
-                                }else if(item.getListener() instanceof TaskObjectListener){
-                                    ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
-                                }else{
-                                    item.getListener().update();
-                                }
-                                result.remove(item.toString());
-                            }
-                        });
+                        //回调处理数据
+                        if(item.getListener() instanceof TaskListListener){
+                            ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
+                        }else if(item.getListener() instanceof TaskObjectListener){
+                            ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
+                        }else{
+                            item.getListener().update();
+                        }
+                        result.remove(item.toString());
                     }
 
                     //停止后清空

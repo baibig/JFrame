@@ -27,15 +27,10 @@ public class TaskPool {
     /**  存放返回的任务结果. */
     private static HashMap<String,Object> result;
 
-    /** 下载完成后的消息句柄. */
-    private Handler handler ;
-
-
     /**
      * 构造线程池.
      */
-    private TaskPool(Handler handler) {
-        this.handler = handler;
+    private TaskPool() {
         result = new HashMap<String,Object>();
         mExecutorService = JThreadFactory.getExecutorService();
     }
@@ -45,13 +40,13 @@ public class TaskPool {
      *
      * @return single instance of AbHttpPool
      */
-    public static TaskPool getInstance(Handler handler) {
+    public static TaskPool getInstance() {
         TaskPool tmp = taskPool;
         if (tmp == null) {
             synchronized (TaskPool.class) {
                 tmp = taskPool;
                 if (tmp == null) {
-                    tmp = new TaskPool(handler);
+                    tmp = new TaskPool();
                     taskPool = tmp;
                 }
             }
@@ -78,20 +73,15 @@ public class TaskPool {
                             result.put(item.toString(), null);
                         }
 
-                        //交由UI线程处理
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(item.getListener() instanceof TaskListListener){
-                                    ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
-                                }else if(item.getListener() instanceof TaskObjectListener){
-                                    ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
-                                }else{
-                                    item.getListener().update();
-                                }
-                                result.remove(item.toString());
-                            }
-                        });
+                        //回调处理数据
+                        if(item.getListener() instanceof TaskListListener){
+                            ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
+                        }else if(item.getListener() instanceof TaskObjectListener){
+                            ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
+                        }else{
+                            item.getListener().update();
+                        }
+                        result.remove(item.toString());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
