@@ -1,25 +1,23 @@
 package com.huangjian.jframe.utils.task.thread;
 
-import com.huangjian.jframe.utils.JLogger;
 import com.huangjian.jframe.utils.task.TaskItem;
 import com.huangjian.jframe.utils.task.TaskListListener;
 import com.huangjian.jframe.utils.task.TaskObjectListener;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Description:
  * Author: huangjian
  * Date: 16/3/9 下午1:47.
  */
-public class TaskQueue extends Thread {
+public class TaskQueue {
 
     private static volatile TaskQueue mInstance;
-    /** 等待执行的任务. 用 LinkedList增删效率高*/
-    private LinkedList<TaskItem> taskItemList = null;
+    private ExecutorService mExecutorService;
 
     /** 停止的标记. */
     private boolean quit = false;
@@ -50,11 +48,9 @@ public class TaskQueue extends Thread {
      */
     private TaskQueue() {
         quit = false;
-        taskItemList = new LinkedList<TaskItem>();
         result = new HashMap<String,Object>();
         //从线程池中获取
-        Executor mExecutorService  = JThreadFactory.getExecutorService();
-        mExecutorService.execute(this);
+        mExecutorService  = Executors.newSingleThreadExecutor();
     }
 
     /**
@@ -62,117 +58,38 @@ public class TaskQueue extends Thread {
      *
      * @param item 执行单位
      */
-    public void execute(TaskItem item) {
-        addTaskItem(item);
-    }
-
-
-    /**
-     * 开始一个执行任务并清除原来队列.
-     * @param item 执行单位
-     * @param cancel 清空之前的任务
-     */
-    public void execute(TaskItem item,boolean cancel) {
-        if(cancel){
-            cancel(true);
-        }
-        addTaskItem(item);
-    }
-
-    /**
-     * 描述：添加到执行线程队列.
-     *
-     * @param item 执行单位
-     */
-    private synchronized void addTaskItem(TaskItem item) {
-        taskItemList.add(item);
-        //添加了执行项就激活本线程
-        this.notify();
-
-    }
-
-    /**
-     * 描述：线程运行.
-     *
-     * @see java.lang.Thread#run()
-     */
-    @Override
-    public void run() {
-        while(!quit) {
-            try {
-                while(taskItemList.size() > 0){
-
-                    final TaskItem item = taskItemList.remove(0);
-                    //定义了回调
-                    if (item!=null && item.getListener() != null) {
-                        if(item.getListener() instanceof TaskListListener){
-                            result.put(item.toString(), ((TaskListListener)item.getListener()).getList());
-                        }else if(item.getListener() instanceof TaskObjectListener){
-                            result.put(item.toString(), ((TaskObjectListener)item.getListener()).getObject());
-                        }else{
-                            item.getListener().get();
-                            result.put(item.toString(), null);
-                        }
-                        //回调处理数据
-                        if(item.getListener() instanceof TaskListListener){
-                            ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
-                        }else if(item.getListener() instanceof TaskObjectListener){
-                            ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
-                        }else{
-                            item.getListener().update();
-                        }
-                        result.remove(item.toString());
+    public void addTask(final TaskItem item) {
+        mExecutorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                //定义了回调
+                if (item!=null && item.getListener() != null) {
+                    if(item.getListener() instanceof TaskListListener){
+                        result.put(item.toString(), ((TaskListListener)item.getListener()).getList());
+                    }else if(item.getListener() instanceof TaskObjectListener){
+                        result.put(item.toString(), ((TaskObjectListener)item.getListener()).getObject());
+                    }else{
+                        item.getListener().get();
+                        result.put(item.toString(), null);
                     }
-
-                    //停止后清空
-                    if(quit){
-                        taskItemList.clear();
-                        return;
+                    //回调处理数据
+                    if(item.getListener() instanceof TaskListListener){
+                        ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
+                    }else if(item.getListener() instanceof TaskObjectListener){
+                        ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
+                    }else{
+                        item.getListener().update();
                     }
+                    result.remove(item.toString());
                 }
-                try {
-                    //没有执行项时等待
-                    synchronized(this) {
-                        this.wait();
-                    }
-                } catch (InterruptedException e) {
-                    JLogger.tag("TaskQueue").e("收到线程中断请求");
-                    e.printStackTrace();
-                    //被中断的是退出就结束，否则继续
-                    if (quit) {
-                        taskItemList.clear();
-                        return;
-                    }
-                    continue;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }
+        });
     }
 
     /**
-     * 描述：终止队列释放线程.
-     *
-     * @param interrupt the may interrupt if running
+     * 关闭线程队列。
      */
-    public void cancel(boolean interrupt){
-        try {
-            quit  = true;
-            if(interrupt){
-                interrupted();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void stop() {
+        mExecutorService.shutdown();
     }
-
-    public LinkedList<TaskItem> getTaskItemList() {
-        return taskItemList;
-    }
-
-    public int getTaskItemListSize() {
-        return taskItemList.size();
-    }
-
 }

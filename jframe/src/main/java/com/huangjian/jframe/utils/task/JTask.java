@@ -57,15 +57,6 @@ public class JTask extends AsyncTask<TaskItem, Integer, TaskItem> {
 
     /**
      *
-     * 取消.
-     */
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
-    }
-
-    /**
-     *
      * 执行完成.
      * @param item
      */
