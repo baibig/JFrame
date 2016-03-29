@@ -1,7 +1,6 @@
 package com.huangjian.jframe.utils.task.thread;
 
 import android.os.Handler;
-import android.os.Message;
 
 import com.huangjian.jframe.utils.JLogger;
 import com.huangjian.jframe.utils.task.TaskItem;
@@ -20,6 +19,7 @@ import java.util.concurrent.Executor;
  */
 public class TaskQueue extends Thread {
 
+    private static volatile TaskQueue mInstance;
     /** 等待执行的任务. 用 LinkedList增删效率高*/
     private LinkedList<TaskItem> taskItemList = null;
 
@@ -29,37 +29,33 @@ public class TaskQueue extends Thread {
     /**  存放返回的任务结果. */
     private HashMap<String,Object> result;
 
-    /** 执行完成后的消息句柄. */
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            TaskItem item = (TaskItem)msg.obj;
-            if(item.getListener() instanceof TaskListListener){
-                ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
-            }else if(item.getListener() instanceof TaskObjectListener){
-                ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
-            }else{
-                item.getListener().update();
-            }
-            result.remove(item.toString());
-        }
-    };
+    private Handler handler;
 
     /**
      *
      * 构造.
      * @return
      */
-    public static TaskQueue newInstance() {
-        TaskQueue taskQueue = new TaskQueue();
-        return taskQueue;
+    public static TaskQueue getInstance(Handler handler) {
+        TaskQueue tmp = mInstance;
+        if (tmp == null) {
+            synchronized (TaskQueue.class) {
+                tmp = mInstance;
+                if (tmp == null) {
+                    tmp = new TaskQueue(handler);
+                    mInstance = tmp;
+                }
+            }
+        }
+        return tmp;
     }
 
     /**
      * 构造执行线程队列.
      */
-    private TaskQueue() {
+    private TaskQueue(Handler handler) {
         quit = false;
+        this.handler = handler;
         taskItemList = new LinkedList<TaskItem>();
         result = new HashMap<String,Object>();
         //从线程池中获取
@@ -112,7 +108,7 @@ public class TaskQueue extends Thread {
             try {
                 while(taskItemList.size() > 0){
 
-                    TaskItem item = taskItemList.remove(0);
+                    final TaskItem item = taskItemList.remove(0);
                     //定义了回调
                     if (item!=null && item.getListener() != null) {
                         if(item.getListener() instanceof TaskListListener){
@@ -124,9 +120,19 @@ public class TaskQueue extends Thread {
                             result.put(item.toString(), null);
                         }
                         //交由UI线程处理
-                        Message msg = handler.obtainMessage();
-                        msg.obj = item;
-                        handler.sendMessage(msg);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(item.getListener() instanceof TaskListListener){
+                                    ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
+                                }else if(item.getListener() instanceof TaskObjectListener){
+                                    ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
+                                }else{
+                                    item.getListener().update();
+                                }
+                                result.remove(item.toString());
+                            }
+                        });
                     }
 
                     //停止后清空

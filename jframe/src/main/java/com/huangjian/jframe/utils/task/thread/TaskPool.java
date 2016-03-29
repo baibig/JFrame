@@ -19,7 +19,7 @@ import java.util.concurrent.Executor;
 public class TaskPool {
 
     /** 单例对象 The http pool. */
-    private static TaskPool taskPool = null;
+    private static volatile TaskPool taskPool = null;
 
     /** 线程执行器. */
     public static Executor mExecutorService = null;
@@ -28,26 +28,14 @@ public class TaskPool {
     private static HashMap<String,Object> result;
 
     /** 下载完成后的消息句柄. */
-    private static Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            TaskItem item = (TaskItem)msg.obj;
-            if(item.getListener() instanceof TaskListListener){
-                ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
-            }else if(item.getListener() instanceof TaskObjectListener){
-                ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
-            }else{
-                item.getListener().update();
-            }
-            result.remove(item.toString());
-        }
-    };
+    private Handler handler ;
 
 
     /**
      * 构造线程池.
      */
-    private TaskPool() {
+    private TaskPool(Handler handler) {
+        this.handler = handler;
         result = new HashMap<String,Object>();
         mExecutorService = JThreadFactory.getExecutorService();
     }
@@ -57,11 +45,18 @@ public class TaskPool {
      *
      * @return single instance of AbHttpPool
      */
-    public static TaskPool getInstance() {
-        if (taskPool == null) {
-            taskPool = new TaskPool();
+    public static TaskPool getInstance(Handler handler) {
+        TaskPool tmp = taskPool;
+        if (tmp == null) {
+            synchronized (TaskPool.class) {
+                tmp = taskPool;
+                if (tmp == null) {
+                    tmp = new TaskPool(handler);
+                    taskPool = tmp;
+                }
+            }
         }
-        return taskPool;
+        return tmp;
     }
 
     /**
@@ -84,9 +79,19 @@ public class TaskPool {
                         }
 
                         //交由UI线程处理
-                        Message msg = handler.obtainMessage();
-                        msg.obj = item;
-                        handler.sendMessage(msg);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(item.getListener() instanceof TaskListListener){
+                                    ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
+                                }else if(item.getListener() instanceof TaskObjectListener){
+                                    ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
+                                }else{
+                                    item.getListener().update();
+                                }
+                                result.remove(item.toString());
+                            }
+                        });
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

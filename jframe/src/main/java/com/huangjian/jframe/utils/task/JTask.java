@@ -8,6 +8,7 @@ import java.util.List;
  * Description:
  * Author: huangjian
  * Date: 16/3/9 下午1:44.
+ * @// TODO: 2016/3/29 刷新进度问题 
  */
 public class JTask extends AsyncTask<TaskItem, Integer, TaskItem> {
 
@@ -27,7 +28,7 @@ public class JTask extends AsyncTask<TaskItem, Integer, TaskItem> {
     /**
      * 实例化.
      */
-    public static JTask newInstance() {
+    public static JTask getInstance() {
         JTask mJTask = new JTask();
         return mJTask;
     }
@@ -80,27 +81,4 @@ public class JTask extends AsyncTask<TaskItem, Integer, TaskItem> {
             }
         }
     }
-
-    /**
-     *
-     * 执行前.
-     */
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    /**
-     *
-     * 进度更新.
-     * @param values
-     */
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-        if (this.listener != null) {
-            this.listener.onProgressUpdate(values);
-        }
-    }
-
 }
