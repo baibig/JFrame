@@ -1,89 +1,46 @@
 package com.huangjian.jframe.utils.log;
 
-public final class Settings {
+import android.util.Log;
 
-    private int methodCount = 2;
-    private boolean showThreadInfo = true;
-    private int methodOffset = 0;
-    private LogTool logTool;
+/**
+ * Author: pierce
+ * Date: 2016/3/31
+ */
+public class Settings {
 
-    /**
-     * Determines how logs will printed
-     */
-    private JLogLevel logLevel = JLogLevel.FULL;
+    protected int methodOffset = 0;
 
-    public Settings hideThreadInfo() {
-        showThreadInfo = false;
+    protected boolean showMethodLink = true;
+
+    protected boolean showThreadInfo = false;
+
+    protected int priority = Log.VERBOSE;
+
+    public static Settings getInstance() {
+        return new Settings();
+    }
+
+    private Settings() {
+
+    }
+
+    public Settings setMethodOffset(int methodOffset) {
+        this.methodOffset = methodOffset;
         return this;
     }
 
-    /**
-     * Use {@link #methodCount}
-     */
-    @Deprecated
-    public Settings setMethodCount(int methodCount) {
-        return methodCount(methodCount);
-    }
-
-    public Settings methodCount(int methodCount) {
-        if (methodCount < 0) {
-            methodCount = 0;
-        }
-        this.methodCount = methodCount;
+    public Settings isShowThreadInfo(boolean showThreadInfo) {
+        this.showThreadInfo = showThreadInfo;
         return this;
     }
 
-    /**
-     * Use {@link #logLevel}
-     */
-    @Deprecated
-    public Settings setLogLevel(JLogLevel logLevel) {
-        return logLevel(logLevel);
-    }
-
-    public Settings logLevel(JLogLevel logLevel) {
-        this.logLevel = logLevel;
+    public Settings isShowMethodLink(boolean showMethodLink) {
+        this.showMethodLink = showMethodLink;
         return this;
     }
 
-    /**
-     * Use {@link #methodOffset}
-     */
-    @Deprecated
-    public Settings setMethodOffset(int offset) {
-        return methodOffset(offset);
-    }
-
-    public Settings methodOffset(int offset) {
-        this.methodOffset = offset;
+    public Settings setLogPriority(int priority) {
+        this.priority = priority;
         return this;
-    }
-
-    public Settings logTool(LogTool logTool) {
-        this.logTool = logTool;
-        return this;
-    }
-
-    public int getMethodCount() {
-        return methodCount;
-    }
-
-    public boolean isShowThreadInfo() {
-        return showThreadInfo;
-    }
-
-    public JLogLevel getLogLevel() {
-        return logLevel;
-    }
-
-    public int getMethodOffset() {
-        return methodOffset;
-    }
-
-    public LogTool getLogTool() {
-        if (logTool == null) {
-            logTool = new AndroidLogTool();
-        }
-        return logTool;
     }
 }

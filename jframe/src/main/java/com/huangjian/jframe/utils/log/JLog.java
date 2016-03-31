@@ -1,136 +1,126 @@
 package com.huangjian.jframe.utils.log;
 
+import android.support.annotation.NonNull;
+
+import com.huangjian.jframe.utils.log.util.ObjParser;
+import com.huangjian.jframe.utils.log.util.XmlJsonParser;
+
+import timber.log.Timber;
+
 /**
- * Description: JLog is a wrapper of {@link android.util.Log},but more pretty, simple and powerful
- * 即可以格式化显示,也可以格式化message
- * Usage: JLog.t(tag).d("abc%s %3d", "wert", 5);
- * Or JLog.d("abc%s %3d", "wert", 5);
- * Author: huangjian
- * Date: 16/2/24
+ * Author: pierce
+ * Date: 2016/3/31
  */
-public final class JLog {
+public class JLog {
 
-    public static final String DEFAULT_TAG = "JLog";
-    private static boolean DEBUG;
-    private static JLogPrinter printer;
+    private static LogPrinter printer;
 
-    //no instance
-    private JLog() {
-        printer = JLogFactory.getPrinter(DEFAULT_TAG, DEBUG);
-    }
+    // @formatter:off
+    @Deprecated protected JLog() {}
+    // @formatter:on
 
-    private static void createInstance(){
-        if (printer == null){
-            new JLog();
-        }
-    }
-
-    public static void init(boolean debug) {
-        DEBUG = debug;
-    }
-    public static void clear() {
-        createInstance();
-        printer.clear();
+    public static void initialize(Settings settings) {
+        printer = new LogPrinter(settings);
+        Timber.plant(printer);
     }
 
     public static Settings getSettings() {
-        createInstance();
         return printer.getSettings();
     }
 
-    /**
-     * 设置log的tag
-     * @param tag
-     * @return
-     */
-    public static Printer t(String tag) {
-        createInstance();
-        return printer.t(tag, printer.getSettings().getMethodCount());
-    }
-
-    /**
-     * 设置方法调用栈深度,默认是3
-     * @param methodCount
-     * @return
-     */
-    public static Printer t(int methodCount) {
-        createInstance();
-        return printer.t(null, methodCount);
-    }
-
-    public static Printer t(String tag, int methodCount) {
-        createInstance();
-        return printer.t(tag, methodCount);
-    }
-
-    /**
-     * Log.d 输出debug信息
-     * @param message 要输出到终端的信息,可以格式化显示,如"abc%5d%s"
-     * @param args 格式化参数
-     */
-    public static void d(String message, Object... args) {
-        createInstance();
-        printer.d(message, args);
-    }
-
-    /**
-     * 同上
-     * see{@link #d(String, Object...)}
-     * @param throwable 抛出的异常信息
-     */
-    public static void e(Throwable throwable) {
-        createInstance();
-        printer.e(throwable);
-    }
-
-    public static void e(String message, Object... args) {
-        createInstance();
-        printer.e(null, message, args);
-    }
-
-    public static void e(Throwable throwable, String message, Object... args) {
-        createInstance();
-        printer.e(throwable, message, args);
-    }
-
-    public static void i(String message, Object... args) {
-        createInstance();
-        printer.i(message, args);
+    public static Timber.Tree tag(String tag) {
+        return Timber.tag(tag);
     }
 
     public static void v(String message, Object... args) {
-        createInstance();
-        printer.v(message, args);
+        message = handleNullMsg(message);
+        Timber.v(message, args);
+    }
+
+    public static void d(String message, Object... args) {
+        message = handleNullMsg(message);
+        Timber.d(message, args);
+    }
+
+    public static void i(String message, Object... args) {
+        message = handleNullMsg(message);
+        Timber.i(message, args);
     }
 
     public static void w(String message, Object... args) {
-        createInstance();
-        printer.w(message, args);
+        message = handleNullMsg(message);
+        Timber.w(message, args);
+    }
+
+    public static void w(Throwable throwable, String message, Object... args) {
+        message = handleNullMsg(message);
+        Timber.w(throwable, message, args);
+    }
+
+    public static void e(String message, Object... args) {
+        message = handleNullMsg(message);
+        Timber.e(message, args);
+    }
+
+    public static void e(Throwable throwable, String message, Object... args) {
+        message = handleNullMsg(message);
+        Timber.e(throwable, message, args);
     }
 
     public static void wtf(String message, Object... args) {
-        createInstance();
-        printer.wtf(message, args);
+        message = handleNullMsg(message);
+        Timber.wtf(message, args);
+    }
+
+    public static void wtf(Throwable throwable, String message, Object... args) {
+        message = handleNullMsg(message);
+        Timber.wtf(throwable, message, args);
     }
 
     /**
-     * 格式化输出json数据
+     * Formats the json content and print it
      *
      * @param json the json content
      */
     public static void json(String json) {
-        createInstance();
-        printer.json(json);
+        Timber.d(XmlJsonParser.json(json));
     }
 
     /**
-     * 格式化输出xml数据
+     * Formats the json content and print it
      *
      * @param xml the xml content
      */
     public static void xml(String xml) {
-        createInstance();
-        printer.xml(xml);
+        Timber.d(XmlJsonParser.xml(xml));
+    }
+
+    /**
+     * Formats the json content and print it
+     *
+     * @param object Bean,Array,Collection,Map,Pojo and so on
+     */
+    public static void object(Object object) {
+        Timber.d(ObjParser.parseObj(object));
+    }
+
+    public static void plant(Timber.Tree tree) {
+        Timber.plant(tree);
+    }
+
+    public static void uprootAll() {
+        Timber.uprootAll();
+    }
+
+    /**
+     * Timber will swallow message if it's null and there's no throwable.
+     */
+    @NonNull
+    private static String handleNullMsg(String message) {
+        if (message == null) {
+            message = "null";
+        }
+        return message;
     }
 
 }
