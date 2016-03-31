@@ -9,11 +9,8 @@ import android.widget.Toast;
 import com.huangjian.jframe.utils.http.FileDownloadCallback;
 import com.huangjian.jframe.utils.http.HttpRequest;
 import com.huangjian.jframe.utils.http.StringHttpRequestCallback;
-import com.huangjian.jframe.utils.JLogger;
 
 import java.io.File;
-
-import okhttp3.Headers;
 
 public class HttpTestActivity extends AppCompatActivity {
 

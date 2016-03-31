@@ -2,7 +2,7 @@ package com.huangjian.jframe.utils.router.utils;
 
 import android.net.Uri;
 
-import com.huangjian.jframe.utils.JLogger;
+import com.huangjian.jframe.utils.log.JLog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +55,7 @@ public class UrlUtils {
                 parameters.put(key, uri.getQueryParameter(key));
             }
         } catch (Exception e){
-            JLogger.e(e, "");
+            JLog.e(e, "");
         }
         return parameters;
     }
@@ -66,7 +66,7 @@ public class UrlUtils {
             Uri uri = Uri.parse(url);
             return uri.buildUpon().appendQueryParameter(key, value).build().toString();
         } catch (Exception e){
-            JLogger.e(e, "");
+            JLog.e(e, "");
         }
         return url;
     }

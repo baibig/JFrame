@@ -1,6 +1,6 @@
 package com.huangjian.jframe.utils.router.tools;
 
-import com.huangjian.jframe.utils.JLogger;
+import com.huangjian.jframe.utils.log.JLog;
 import com.huangjian.jframe.utils.router.utils.UrlUtils;
 
 import java.util.regex.Matcher;
@@ -68,7 +68,7 @@ public class ActivityRouteUrlBuilder {
     public String build(){
         Matcher matcher = Pattern.compile(":[i, f, l, d, s, c]?\\{[a-zA-Z0-9]+?\\}").matcher(mPath);
         if(matcher.find()){
-            JLogger.w(TAG, "Not all the key settled");
+            JLog.w(TAG, "Not all the key settled");
         }
         return mPath;
     }

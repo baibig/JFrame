@@ -2,7 +2,6 @@ package com.huangjian.jframe.demo;
 
 import android.app.Application;
 
-import com.huangjian.jframe.utils.JLogger;
 import com.huangjian.jframe.utils.http.JOkHttp;
 import com.huangjian.jframe.utils.http.JOkHttpConfiguration;
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.huangjian.jframe.utils.JLogger;
+import com.huangjian.jframe.utils.log.JLog;
 import com.huangjian.jframe.utils.router.route.IRoute;
 import com.huangjian.jframe.utils.router.router.ActivityRouter;
 import com.huangjian.jframe.utils.router.router.BrowserRouter;
@@ -48,7 +48,7 @@ public class RouterManager {
             mRouters.removeAll(duplicateRouters);
             mRouters.add(router);
         } else {
-            JLogger.e(new NullPointerException("The Router" +
+            JLog.e(new NullPointerException("The Router" +
                     "is null" +
                     ""), "");
         }
