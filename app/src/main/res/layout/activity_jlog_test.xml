@@ -22,10 +22,4 @@
         android:id="@+id/btn_log_custom"
         android:text="custom"
         android:onClick="logCustom"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_log_file"
-        android:text="WTF"
-        android:onClick="logWTF"/>
 </LinearLayout>

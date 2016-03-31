@@ -32,8 +32,4 @@ public class JLogTestActivity extends AppCompatActivity {
         JLog.tag("demo").e(tag, 4);
         JLog.tag("demo").wtf(tag, 5);
     }
-
-    public void logWTF(View view) {
-        JLog.wtf("<resources><string name=\"app_name\">JFrame</string></resources>");
-    }
 }

@@ -30,4 +30,9 @@
         android:layout_height="wrap_content"
         android:text="list测试"
         android:id="@+id/btn_list_test"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="dialog测试"
+        android:id="@+id/btn_dialog_test"/>
 </LinearLayout>

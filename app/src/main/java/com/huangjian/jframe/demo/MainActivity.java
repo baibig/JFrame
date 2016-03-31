@@ -38,5 +38,11 @@ public class MainActivity extends AppCompatActivity {
                 IntentUtils.sendIntent(MainActivity.this, ListTestActivity.class);
             }
         });
+        findViewById(R.id.btn_dialog_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentUtils.sendIntent(MainActivity.this, JDialogTestActivity.class);
+            }
+        });
     }
 }

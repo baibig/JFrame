@@ -23,7 +23,8 @@
         <activity android:name=".HttpTestActivity" />
         <activity android:name=".RecyclerViewTestActivity" />
         <activity android:name=".ListTestActivity" />
-        <activity android:name=".ListViewTestActivity"></activity>
+        <activity android:name=".ListViewTestActivity" />
+        <activity android:name=".JDialogTestActivity"></activity>
     </application>
 
 </manifest>

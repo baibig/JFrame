@@ -117,7 +117,7 @@ public class JDialog {
         builder.create().show();
     }
 
-    private enum CONTENT_TYPE {
+    public enum CONTENT_TYPE {
         CUSTOM_CONTENT(0), LIST(1), GRID(2);
         private int value;
         private CONTENT_TYPE(int value) {

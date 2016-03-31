@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.huangjian.jframe.utils.http.JOkHttp;
 import com.huangjian.jframe.utils.http.JOkHttpConfiguration;
+import com.huangjian.jframe.utils.log.JLog;
+import com.huangjian.jframe.utils.log.Settings;
 
 /**
  * Description:
@@ -14,7 +16,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        JLogger.initial();
+        JLog.initialize(Settings.getInstance());
         JOkHttpConfiguration.Builder builder = new JOkHttpConfiguration.Builder();
         builder.setDebug(BuildConfig.DEBUG);
         JOkHttp.getInstance().init(builder.build());
