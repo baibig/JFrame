@@ -5,71 +5,55 @@ import android.os.AsyncTask;
 import java.util.List;
 
 /**
- * Description:
+ * Description: 对AsyncTask简单封装
  * Author: huangjian
  * Date: 16/3/9 下午1:44.
- * @// TODO: 2016/3/29 刷新进度问题
  */
-public class JTask extends AsyncTask<TaskItem, Integer, TaskItem> {
+public class JTask extends AsyncTask<Void, Integer, Object> {
 
-    /** 监听器. */
-    private TaskListener listener;
-
-    /** 结果. */
-    private Object result;
+    private TaskItem taskItem;
 
     /**
      * 初始化Task.
      */
-    public JTask() {
+    public JTask(TaskItem taskItem) {
         super();
+        this.taskItem = taskItem;
     }
 
-    /**
-     * 实例化.
-     */
-    public static JTask getInstance() {
-        JTask mJTask = new JTask();
-        return mJTask;
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        TaskCallback callback = this.taskItem.getCallback();
+        if (callback != null) {
+            callback.prepare();
+        }
     }
 
     /**
      *
      * 执行任务.
-     * @param items
      * @return
      */
     @Override
-    protected TaskItem doInBackground(TaskItem... items) {
-        TaskItem item = items[0];
-        this.listener = item.getListener();
-        if (this.listener != null) {
-            if(this.listener instanceof TaskListListener){
-                result = ((TaskListListener)this.listener).getList();
-            }else if(this.listener instanceof TaskObjectListener){
-                result = ((TaskObjectListener)this.listener).getObject();
-            }else{
-                this.listener.get();
-            }
+    protected Object doInBackground(Void... voids) {
+        TaskCallback callback = this.taskItem.getCallback();
+        if (callback != null) {
+            return callback.execute();
         }
-        return item;
+        return null;
     }
 
     /**
      *
      * 执行完成.
-     * @param item
+     * @param result
      */
     @Override
-    protected void onPostExecute(TaskItem item) {
-        if (this.listener != null) {
-            if(this.listener instanceof TaskListListener){
-                ((TaskListListener)this.listener).update((List<?>)result);
-            }else if(this.listener instanceof TaskObjectListener){
-                ((TaskObjectListener)this.listener).update(result);
-            }else{
-                this.listener.update();
-            }
+    protected void onPostExecute(Object result) {
+        TaskCallback callback = this.taskItem.getCallback();
+        if (callback != null) {
+            callback.update(result);
         }
     }
 }

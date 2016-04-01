@@ -6,12 +6,8 @@ package com.huangjian.jframe.utils.task;
  * Date: 16/3/9 下午1:42.
  */
 public class TaskItem {
-
-    /** 记录的当前索引. */
-    private int position;
-
     /** 执行完成的回调接口. */
-    private TaskListener listener;
+    private TaskCallback callback;
 
     /**
      * Instantiates a new ab task item.
@@ -23,47 +19,20 @@ public class TaskItem {
     /**
      * Instantiates a new ab task item.
      *
-     * @param listener the listener
+     * @param callback the callback
      */
-    public TaskItem(TaskListener listener) {
+    public TaskItem(TaskCallback callback) {
         super();
-        this.listener = listener;
+        this.callback = callback;
     }
 
     /**
-     * Gets the position.
+     * Gets the callback.
      *
-     * @return the position
+     * @return the callback
      */
-    public int getPosition() {
-        return position;
-    }
-
-    /**
-     * Sets the position.
-     *
-     * @param position the new position
-     */
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    /**
-     * Gets the listener.
-     *
-     * @return the listener
-     */
-    public TaskListener getListener() {
-        return listener;
-    }
-
-    /**
-     * Sets the listener.
-     *
-     * @param listener the new listener
-     */
-    public void setListener(TaskListener listener) {
-        this.listener = listener;
+    public TaskCallback getCallback() {
+        return callback;
     }
 
 }

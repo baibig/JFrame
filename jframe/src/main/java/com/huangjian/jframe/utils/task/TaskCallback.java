@@ -5,29 +5,22 @@ package com.huangjian.jframe.utils.task;
  * Author: huangjian
  * Date: 16/3/9 下午1:42.
  */
-public class TaskListener {
+public class TaskCallback {
+
+    public void prepare() {}
 
     /**
      * 执行开始.
      *
      * @return 返回的结果对象
      */
-    public void get() {
+    public Object execute() {
+        return null;
     };
 
     /**
      * 执行完成后调用.
      * */
-    public void update() {
+    public void update(Object result) {
     };
-
-    /**
-     * 监听进度变化.
-     *
-     * @param values
-     *            the values
-     */
-    public void onProgressUpdate(Integer... values) {
-    };
-
 }

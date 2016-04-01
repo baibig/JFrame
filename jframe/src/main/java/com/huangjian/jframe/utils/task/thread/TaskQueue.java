@@ -1,16 +1,14 @@
 package com.huangjian.jframe.utils.task.thread;
 
 import com.huangjian.jframe.utils.task.TaskItem;
-import com.huangjian.jframe.utils.task.TaskListListener;
-import com.huangjian.jframe.utils.task.TaskObjectListener;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Description:
+ * Description: 简单封装了一个线程队列
  * Author: huangjian
  * Date: 16/3/9 下午1:47.
  */
@@ -18,12 +16,6 @@ public class TaskQueue {
 
     private static volatile TaskQueue mInstance;
     private ExecutorService mExecutorService;
-
-    /** 停止的标记. */
-    private boolean quit = false;
-
-    /**  存放返回的任务结果. */
-    private HashMap<String,Object> result;
 
     /**
      * 单例
@@ -47,10 +39,14 @@ public class TaskQueue {
      * 构造执行线程队列.
      */
     private TaskQueue() {
-        quit = false;
-        result = new HashMap<String,Object>();
         //从线程池中获取
-        mExecutorService  = Executors.newSingleThreadExecutor();
+        mExecutorService  = Executors.newSingleThreadExecutor(new ThreadFactory() {
+            private final AtomicInteger threadCount = new AtomicInteger(1);
+            @Override
+            public Thread newThread(Runnable runnable) {
+                return new Thread("JThread # " + threadCount.getAndIncrement());
+            }
+        });
     }
 
     /**
@@ -63,24 +59,10 @@ public class TaskQueue {
             @Override
             public void run() {
                 //定义了回调
-                if (item!=null && item.getListener() != null) {
-                    if(item.getListener() instanceof TaskListListener){
-                        result.put(item.toString(), ((TaskListListener)item.getListener()).getList());
-                    }else if(item.getListener() instanceof TaskObjectListener){
-                        result.put(item.toString(), ((TaskObjectListener)item.getListener()).getObject());
-                    }else{
-                        item.getListener().get();
-                        result.put(item.toString(), null);
-                    }
-                    //回调处理数据
-                    if(item.getListener() instanceof TaskListListener){
-                        ((TaskListListener)item.getListener()).update((List<?>)result.get(item.toString()));
-                    }else if(item.getListener() instanceof TaskObjectListener){
-                        ((TaskObjectListener)item.getListener()).update(result.get(item.toString()));
-                    }else{
-                        item.getListener().update();
-                    }
-                    result.remove(item.toString());
+                if (item!=null && item.getCallback() != null) {
+                    item.getCallback().prepare();
+                    Object response = item.getCallback().execute();
+                    item.getCallback().update(response);
                 }
             }
         });
@@ -89,7 +71,12 @@ public class TaskQueue {
     /**
      * 关闭线程队列。
      */
-    public void stop() {
+    public void shutdown() {
         mExecutorService.shutdown();
+        try {
+            mInstance.finalize();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 }
