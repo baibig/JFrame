@@ -1,5 +1,7 @@
 package com.huangjian.jframe.task.thread;
 
+import android.os.Handler;
+
 import com.huangjian.jframe.task.TaskItem;
 
 import java.util.concurrent.ExecutorService;
@@ -16,6 +18,7 @@ public class TaskQueue {
 
     private static volatile TaskQueue mInstance;
     private ExecutorService mExecutorService;
+    private Handler mHandler;
 
     /**
      * 单例
@@ -43,9 +46,10 @@ public class TaskQueue {
             private final AtomicInteger threadCount = new AtomicInteger(1);
             @Override
             public Thread newThread(Runnable runnable) {
-                return new Thread("JThread # " + threadCount.getAndIncrement());
+                return new Thread(runnable, "JThread # " + threadCount.getAndIncrement());
             }
         });
+        mHandler = new Handler();
     }
 
     /**
@@ -60,8 +64,13 @@ public class TaskQueue {
                 //定义了回调
                 if (item!=null && item.getCallback() != null) {
                     item.getCallback().prepare();
-                    Object response = item.getCallback().execute();
-                    item.getCallback().update(response);
+                    final Object response = item.getCallback().execute();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            item.getCallback().update(response);
+                        }
+                    });
                 }
             }
         });
@@ -72,10 +81,5 @@ public class TaskQueue {
      */
     public void shutdown() {
         mExecutorService.shutdown();
-        try {
-            mInstance.finalize();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
     }
 }

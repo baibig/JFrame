@@ -1,6 +1,7 @@
 package com.huangjian.jframe.task;
 
 import android.os.AsyncTask;
+import android.os.Handler;
 
 /**
  * Description: 对AsyncTask简单封装
@@ -48,10 +49,8 @@ public class JTask extends AsyncTask<Void, Integer, Object> {
      * @param result;
      */
     @Override
-    protected void onPostExecute(Object result) {
-        TaskCallback callback = this.taskItem.getCallback();
-        if (callback != null) {
-            callback.update(result);
-        }
+    protected void onPostExecute(final Object result) {
+        final TaskCallback callback = this.taskItem.getCallback();
+        callback.update(result);
     }
 }

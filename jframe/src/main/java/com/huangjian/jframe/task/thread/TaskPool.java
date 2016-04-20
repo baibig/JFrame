@@ -1,5 +1,7 @@
 package com.huangjian.jframe.task.thread;
 
+import android.os.Handler;
+
 import com.huangjian.jframe.utils.DeviceUtils;
 import com.huangjian.jframe.task.TaskItem;
 
@@ -24,17 +26,20 @@ public class TaskPool {
     /** 保存线程数量 . */
     private static final int CORE_POOL_SIZE = 5;
 
+    private Handler mHandler;
+
     /**
      * 构造线程池.
      */
     private TaskPool() {
         mExecutorService = Executors.newFixedThreadPool(DeviceUtils.getNumCores() * CORE_POOL_SIZE, new ThreadFactory() {
-            private final AtomicInteger threadCount = new AtomicInteger(1);
+            private final AtomicInteger threadCount = new AtomicInteger(0);
             @Override
             public Thread newThread(Runnable runnable) {
-                return new Thread("JThread # " + threadCount.getAndIncrement());
+                return new Thread(runnable, "JThread # " + threadCount.getAndIncrement());
             }
         });
+        mHandler = new Handler();
     }
 
     public static TaskPool getInstance() {
@@ -62,8 +67,14 @@ public class TaskPool {
                     //定义了回调
                     if (item.getCallback() != null) {
                         item.getCallback().prepare();
-                        Object response = item.getCallback().execute();
-                        item.getCallback().update(response);
+                        final Object response = item.getCallback().execute();
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                item.getCallback().update(response);
+                            }
+                        });
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -74,11 +85,6 @@ public class TaskPool {
 
     public void shutdown() {
         mExecutorService.shutdown();
-        try {
-            mInstance.finalize();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
     }
 
 }

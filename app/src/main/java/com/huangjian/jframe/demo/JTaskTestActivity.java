@@ -3,6 +3,7 @@ package com.huangjian.jframe.demo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.huangjian.jframe.log.JLog;
 import com.huangjian.jframe.task.JTask;
@@ -16,10 +17,12 @@ import java.util.List;
 
 public class JTaskTestActivity extends AppCompatActivity {
 
+    private TextView mTxtLog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jtask_test);
+        mTxtLog = (TextView) findViewById(R.id.txt_jtask_test);
         final TaskItem item1 = new TaskItem(new TaskCallback(){
             @Override
             public void prepare() {
@@ -30,6 +33,11 @@ public class JTaskTestActivity extends AppCompatActivity {
             @Override
             public Object execute() {
                 JLog.d("task 1 execute");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 return super.execute();
             }
 
@@ -37,6 +45,7 @@ public class JTaskTestActivity extends AppCompatActivity {
             public void update(Object result) {
                 super.update(result);
                 JLog.d("task 1 done");
+                mTxtLog.append("task 1 done \n");
             }
         });
         final TaskItem item2 = new TaskItem(new TaskCallback(){
@@ -49,6 +58,11 @@ public class JTaskTestActivity extends AppCompatActivity {
             @Override
             public Object execute() {
                 JLog.d("task 2 execute");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 return super.execute();
             }
 
@@ -56,6 +70,7 @@ public class JTaskTestActivity extends AppCompatActivity {
             public void update(Object result) {
                 super.update(result);
                 JLog.d("task 2 done");
+                mTxtLog.append("task 2 done \n");
             }
         });
         final TaskItem item3 = new TaskItem(new TaskCallback(){
@@ -68,6 +83,11 @@ public class JTaskTestActivity extends AppCompatActivity {
             @Override
             public Object execute() {
                 JLog.d("task 3 execute");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 return super.execute();
             }
 
@@ -75,6 +95,7 @@ public class JTaskTestActivity extends AppCompatActivity {
             public void update(Object result) {
                 super.update(result);
                 JLog.d("task 3 done");
+                mTxtLog.append("task 3 done \n");
             }
         });
         final TaskItem item4 = new TaskItem(new TaskCallback(){
@@ -87,6 +108,11 @@ public class JTaskTestActivity extends AppCompatActivity {
             @Override
             public Object execute() {
                 JLog.d("task 4 execute");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 return super.execute();
             }
 
@@ -94,6 +120,7 @@ public class JTaskTestActivity extends AppCompatActivity {
             public void update(Object result) {
                 super.update(result);
                 JLog.d("task 4 done");
+                mTxtLog.append("task 4 done \n");
             }
         });
         final TaskItem item5 = new TaskItem(new TaskCallback(){
@@ -106,6 +133,11 @@ public class JTaskTestActivity extends AppCompatActivity {
             @Override
             public Object execute() {
                 JLog.d("task 5 execute");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 return super.execute();
             }
 
@@ -113,6 +145,7 @@ public class JTaskTestActivity extends AppCompatActivity {
             public void update(Object result) {
                 super.update(result);
                 JLog.d("task 5 done");
+                mTxtLog.append("task 5 done \n");
             }
         });
         final List<TaskItem> taskItemList = new ArrayList<>();

@@ -18,6 +18,13 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TaskThread测试"
+        android:text="TaskQueue测试"
         android:id="@+id/btn_task_thread"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="执行日志\n"
+        android:id="@+id/txt_jtask_test"
+        android:minLines="1"
+        android:maxLines="100"/>
 </LinearLayout>
