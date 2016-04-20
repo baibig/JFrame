@@ -24,7 +24,8 @@
         <activity android:name=".RecyclerViewTestActivity" />
         <activity android:name=".ListTestActivity" />
         <activity android:name=".ListViewTestActivity" />
-        <activity android:name=".JDialogTestActivity"></activity>
+        <activity android:name=".JDialogTestActivity" />
+        <activity android:name=".JTaskTestActivity"></activity>
     </application>
 
 </manifest>

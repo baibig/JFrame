@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.huangjian.jframe.utils.http.FileDownloadCallback;
-import com.huangjian.jframe.utils.http.HttpRequest;
-import com.huangjian.jframe.utils.http.StringHttpRequestCallback;
-import com.huangjian.jframe.utils.log.JLog;
+import com.huangjian.jframe.http.FileDownloadCallback;
+import com.huangjian.jframe.http.HttpRequest;
+import com.huangjian.jframe.http.StringHttpRequestCallback;
+import com.huangjian.jframe.log.JLog;
 
 import java.io.File;
 

@@ -4,17 +4,14 @@ import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.Transformation;
-import com.huangjian.jframe.utils.DensityUtils;
 import com.huangjian.jframe.utils.ExternalStorageUtils;
-import com.huangjian.jframe.utils.image.ImageOptions;
-import com.huangjian.jframe.utils.image.JImageView;
+import com.huangjian.jframe.ui.view.image.ImageOptions;
+import com.huangjian.jframe.ui.view.image.JImageView;
 
 import java.io.File;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class GlideTestActivity extends AppCompatActivity {
 

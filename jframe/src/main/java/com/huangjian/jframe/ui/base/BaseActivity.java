@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.huangjian.jframe.utils.log.JLog;
+import com.huangjian.jframe.log.JLog;
 
 /**
  * Description:对activity的简单封装,提供了getView来简化findViewById,并提供了构建框架

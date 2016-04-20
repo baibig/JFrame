@@ -1,10 +1,10 @@
-// sdk配置和常用库配置
+ // sdk配置和常用库配置
 ext {
     configuration = [
             package          : "com.huangjian.jframe.demo",
             buildToolsVersion: "23.0.2",
             compileVersion   : 23,
-            minSdk           : 14,
+            minSdk           : 15,
             targetSdk        : 23,
             version_code     : 1,
             version_name     : "0.0.1",

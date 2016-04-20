@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:id="@+id/item_list_test">
-    <com.huangjian.jframe.utils.image.JImageView
+    <com.huangjian.jframe.ui.view.image.JImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/item_list_test_img"
