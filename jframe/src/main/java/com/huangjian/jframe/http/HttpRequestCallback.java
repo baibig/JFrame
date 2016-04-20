@@ -16,6 +16,8 @@
 
 package com.huangjian.jframe.http;
 
+import com.huangjian.jframe.utils.ReflectionUtils;
+
 import java.lang.reflect.Type;
 
 import okhttp3.Headers;
@@ -25,7 +27,7 @@ import okhttp3.Headers;
  * Author:pengjianbo
  * Date:15/7/3 上午11:41
  */
-public class BaseHttpRequestCallback<T> {
+public class HttpRequestCallback<T> {
 
     public static final int ERROR_RESPONSE_NULL = 1001;
     public static final int ERROR_RESPONSE_JSON_EXCEPTION = 1002;
@@ -34,8 +36,8 @@ public class BaseHttpRequestCallback<T> {
     protected Type type;
     protected Headers headers;
 
-    public BaseHttpRequestCallback() {
-        type = ClassTypeReflect.getModelClazz(getClass());
+    public HttpRequestCallback() {
+        type = ReflectionUtils.getParameterizedTypes(this)[0];
     }
 
     public void onStart() {

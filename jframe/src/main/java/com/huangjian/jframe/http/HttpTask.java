@@ -30,10 +30,9 @@ import okhttp3.Response;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import com.huangjian.jframe.utils.JsonUtils;
+import com.huangjian.jframe.utils.ReflectionUtils;
 import com.huangjian.jframe.utils.StringUtils;
 import com.huangjian.jframe.log.JLog;
 
@@ -49,13 +48,13 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
 
     private String url;
     private RequestParams params;
-    private BaseHttpRequestCallback callback;
+    private HttpRequestCallback callback;
     private Headers headers;
     private String requestKey;
     private Method method;
     private OkHttpClient okHttpClient;
 
-    public HttpTask(Method method, String url, RequestParams params, BaseHttpRequestCallback callback) {
+    public HttpTask(Method method, String url, RequestParams params, HttpRequestCallback callback) {
         this.method = method;
         this.url = url;
         this.params = params;
@@ -218,7 +217,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
                 }
                 if (code == 504) {
                     if (callback != null) {
-                        callback.onFailure(BaseHttpRequestCallback.ERROR_RESPONSE_TIMEOUT,
+                        callback.onFailure(HttpRequestCallback.ERROR_RESPONSE_TIMEOUT,
                                 "network error time out");
                     }
                 } else {
@@ -230,7 +229,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
         } else {//请求无响应
             if (responseData.isTimeout()) {
                 if (callback != null) {
-                    callback.onFailure(BaseHttpRequestCallback.ERROR_RESPONSE_TIMEOUT,
+                    callback.onFailure(HttpRequestCallback.ERROR_RESPONSE_TIMEOUT,
                             "network error time out");
                 }
             } else {
@@ -238,7 +237,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
                     JLog.d(", nullurl=" + url + "\n response empty");
                 }
                 if (callback != null) {
-                    callback.onFailure(BaseHttpRequestCallback.ERROR_RESPONSE_UNKNOWN, "http exception");
+                    callback.onFailure(HttpRequestCallback.ERROR_RESPONSE_UNKNOWN, "http exception");
                 }
             }
         }
@@ -254,7 +253,7 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
      * @param responseData 请求的response
      * @param callback 请求回调
      */
-    private void parseResponseBody(ResponseData responseData, BaseHttpRequestCallback callback) {
+    private void parseResponseBody(ResponseData responseData, HttpRequestCallback callback) {
         //回调为空，不向下执行
         if (callback == null) {
             return;
@@ -263,54 +262,35 @@ public class HttpTask extends AsyncTask<Void, Long, ResponseData> {
         String result = responseData.getResponse();
 
         if (StringUtils.isEmpty(result)) {
-            callback.onFailure(BaseHttpRequestCallback.ERROR_RESPONSE_NULL, "result empty");
+            callback.onFailure(HttpRequestCallback.ERROR_RESPONSE_NULL, "result empty");
             return;
         }
-
-        if (callback.type == String.class) {
+        Gson gson = new Gson();
+        Object obj = null;
+        Class<?> cls = null;
+        try {
+            cls = ReflectionUtils.getClass(callback.type);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            JLog.e(e, null);
+        }
+        if (cls == String.class) {
             callback.onSuccess(responseData.getHeaders(), result);
             callback.onSuccess(result);
             return;
-        } else if ( callback.type == JSONObject.class) {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = JSON.parseObject(result);
-            } catch (Exception e) {
-                JLog.e(e, null);
-            }
-            if (jsonObject != null) {
-                callback.onSuccess(responseData.getHeaders(), jsonObject);
-                callback.onSuccess(jsonObject);
-                return;
-            }
-        } else if (callback.type == JSONArray.class) {
-            JSONArray jsonArray = null;
-            try {
-                jsonArray = JSON.parseArray(result);
-            } catch (Exception e) {
-                JLog.e(e, null);
-            }
-
-            if (jsonArray != null) {
-                callback.onSuccess(responseData.getHeaders(), jsonArray);
-                callback.onSuccess(jsonArray);
-                return;
-            }
-        } else {
-            Object obj = null;
-            try {
-                obj = JSON.parseObject(result, callback.type);
-            } catch (Exception e) {
-                JLog.e(e, null);
-            }
-            if (obj != null) {
-                callback.onSuccess(responseData.getHeaders(), obj);
-                callback.onSuccess(obj);
-                return;
-            }
+        }
+        try {
+            obj = gson.fromJson(result, cls);
+        } catch (Exception e) {
+            JLog.e(e, null);
+        }
+        if (obj != null) {
+            callback.onSuccess(responseData.getHeaders(), obj);
+            callback.onSuccess(obj);
+            return;
         }
         //接口请求失败
-        callback.onFailure(BaseHttpRequestCallback.ERROR_RESPONSE_JSON_EXCEPTION, "json exception");
+        callback.onFailure(HttpRequestCallback.ERROR_RESPONSE_JSON_EXCEPTION, "json exception");
     }
 
 }

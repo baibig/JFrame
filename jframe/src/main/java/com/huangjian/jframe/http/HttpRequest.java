@@ -28,6 +28,10 @@ import com.huangjian.jframe.utils.StringUtils;
  */
 public class HttpRequest {
 
+    /**
+     * Get请求
+     * @param url
+     */
     public static void get(String url) {
         get(url, null, null);
     }
@@ -36,20 +40,18 @@ public class HttpRequest {
         get(url, params, null);
     }
 
-    public static void get(String url, BaseHttpRequestCallback callback) {
+    public static void get(String url, HttpRequestCallback callback) {
         get(url, null, callback);
     }
 
-    /**
-     * Get请求 
-     * @param url
-     * @param params
-     * @param callback
-     */
-    public static void get(String url, RequestParams params, BaseHttpRequestCallback callback) {
+    public static void get(String url, RequestParams params, HttpRequestCallback callback) {
         executeRequest(Method.GET, url, params, callback);
     }
 
+    /**
+     * Post请求
+     * @param url
+     */
     public static void post(String url) {
         post(url, null, null);
     }
@@ -58,20 +60,18 @@ public class HttpRequest {
         post(url, params, null);
     }
 
-    public static void post(String url, BaseHttpRequestCallback callback) {
+    public static void post(String url, HttpRequestCallback callback) {
         post(url, null, callback);
     }
 
-    /**
-     * Post请求 
-     * @param url
-     * @param params
-     * @param callback
-     */
-    public static void post(String url, RequestParams params, BaseHttpRequestCallback callback) {
+    public static void post(String url, RequestParams params, HttpRequestCallback callback) {
         executeRequest(Method.POST, url, params, callback);
     }
 
+    /**
+     * Put请求
+     * @param url
+     */
     public static void put(String url) {
         put(url, null, null);
     }
@@ -80,20 +80,18 @@ public class HttpRequest {
         put(url, params, null);
     }
 
-    public static void put(String url, BaseHttpRequestCallback callback) {
+    public static void put(String url, HttpRequestCallback callback) {
         put(url, null, callback);
     }
 
-    /**
-     * put请求 
-     * @param url
-     * @param params
-     * @param callback
-     */
-    public static void put(String url, RequestParams params, BaseHttpRequestCallback callback) {
+    public static void put(String url, RequestParams params, HttpRequestCallback callback) {
         executeRequest(Method.PUT, url, params, callback);
     }
 
+    /**
+     * delete请求
+     * @param url
+     */
     public static void delete(String url) {
         delete(url, null, null);
     }
@@ -102,20 +100,18 @@ public class HttpRequest {
         delete(url, params, null);
     }
 
-    public static void delete(String url, BaseHttpRequestCallback callback) {
+    public static void delete(String url, HttpRequestCallback callback) {
         delete(url, null, callback);
     }
 
-    /**
-     * delete请求 
-     * @param url
-     * @param params
-     * @param callback
-     */
-    public static void delete(String url, RequestParams params, BaseHttpRequestCallback callback) {
+    public static void delete(String url, RequestParams params, HttpRequestCallback callback) {
         executeRequest(Method.DELETE, url, params, callback);
     }
 
+    /**
+     * head请求
+     * @param url
+     */
     public static void head(String url) {
         head(url, null, null);
     }
@@ -124,20 +120,17 @@ public class HttpRequest {
         head(url, params, null);
     }
 
-    public static void head(String url, BaseHttpRequestCallback callback) {
+    public static void head(String url, HttpRequestCallback callback) {
         head(url, null, callback);
     }
 
-    /**
-     * head请求 
-     * @param url
-     * @param params
-     * @param callback
-     */
-    public static void head(String url, RequestParams params, BaseHttpRequestCallback callback) {
+    public static void head(String url, RequestParams params, HttpRequestCallback callback) {
         executeRequest(Method.HEAD, url, params, callback);
     }
-
+    /**
+     * patch请求
+     * @param url
+     */
     public static void patch(String url) {
         patch(url, null, null);
     }
@@ -146,18 +139,35 @@ public class HttpRequest {
         patch(url, params, null);
     }
 
-    public static void patch(String url, BaseHttpRequestCallback callback) {
+    public static void patch(String url, HttpRequestCallback callback) {
         patch(url, null, callback);
     }
 
-    /**
-     * patch请求 
-     * @param url
-     * @param params
-     * @param callback
-     */
-    public static void patch(String url, RequestParams params, BaseHttpRequestCallback callback) {
+    public static void patch(String url, RequestParams params, HttpRequestCallback callback) {
         executeRequest(Method.PATCH, url, params, callback);
+    }
+
+    /**
+     * 下载文件
+     * @param url
+     * @param target 保存的文件
+     */
+    public static void download(String url, File target) {
+        download(url, target, null);
+    }
+
+    public static void download(String url, File target, FileDownloadCallback callback) {
+        if (!StringUtils.isEmpty(url) && target != null) {
+            FileDownloadTask task = new FileDownloadTask(url, target, callback);
+            task.execute();
+        }
+    }
+
+    private static void executeRequest(Method method, String url, RequestParams params, HttpRequestCallback callback) {
+        if (!StringUtils.isEmpty(url)) {
+            HttpTask task = new HttpTask(method, url, params, callback);
+            task.execute();
+        }
     }
 
     /**
@@ -172,30 +182,6 @@ public class HttpRequest {
             }
 
             OkHttpCallManager.getInstance().removeCall(url);
-        }
-    }
-
-    public static void download(String url, File target) {
-        download(url, target, null);
-    }
-
-    /**
-     * 下载文件
-     * @param url
-     * @param target 保存的文件
-     * @param callback
-     */
-    public static void download(String url, File target, FileDownloadCallback callback) {
-        if (!StringUtils.isEmpty(url) && target != null) {
-            FileDownloadTask task = new FileDownloadTask(url, target, callback);
-            task.execute();
-        }
-    }
-
-    private static void executeRequest(Method method, String url, RequestParams params, BaseHttpRequestCallback callback) {
-        if (!StringUtils.isEmpty(url)) {
-            HttpTask task = new HttpTask(method, url, params, callback);
-            task.execute();
         }
     }
 
