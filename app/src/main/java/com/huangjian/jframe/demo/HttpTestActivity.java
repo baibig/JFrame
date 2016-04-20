@@ -4,12 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.huangjian.jframe.http.HttpRequestCallback;
 import com.huangjian.jframe.http.FileDownloadCallback;
 import com.huangjian.jframe.http.HttpRequest;
-import com.huangjian.jframe.http.StringHttpRequestCallback;
 import com.huangjian.jframe.log.JLog;
+import com.huangjian.jframe.utils.JsonUtils;
 
 import java.io.File;
 
@@ -18,17 +21,19 @@ public class HttpTestActivity extends AppCompatActivity {
     public static final String TAG = HttpTestActivity.class.getSimpleName();
 
     Button mBtnDownloadFile;
+    TextView mTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_http_test);
         mBtnDownloadFile = (Button) findViewById(R.id.btn_http_down_file);
+        mTxt = (TextView) findViewById(R.id.txt_http_test);
     }
 
     public void customHttp(View view) {
-        String url = "http://gank.io";
-        HttpRequest.get(url, new StringHttpRequestCallback() {
+        String url = "http://gank.io/api/day/2015/08/07";
+        HttpRequest.get(url, new HttpRequestCallback<HttpTestModel>() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -36,9 +41,12 @@ public class HttpTestActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onSuccess(String s) {
+            protected void onSuccess(HttpTestModel s) {
                 super.onSuccess(s);
                 JLog.tag(TAG).d("onSuccess\nmessage: %s", s);
+                Gson gson = new Gson();
+                String str = gson.toJson(s);
+                mTxt.setText(JsonUtils.formatJson(str));
             }
 
             @Override

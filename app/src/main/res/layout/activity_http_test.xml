@@ -22,4 +22,14 @@
         android:id="@+id/btn_http_down_file"
         android:text="down file"
         android:onClick="downFileHttp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/txt_http_test"
+            />
+    </ScrollView>
+
 </LinearLayout>
