@@ -28,7 +28,8 @@ import okhttp3.RequestBody;
 
 import android.text.TextUtils;
 
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.huangjian.jframe.utils.StringUtils;
 import com.huangjian.jframe.log.JLog;
 
@@ -48,7 +49,7 @@ public class RequestParams {
     private RequestBody requestBody;
     private boolean applicationJson;
     private boolean urlEncoder;//是否进行URL编码
-    private JSONObject jsonParams;
+    private JsonObject jsonParams;
 
     public RequestParams() {
         this(null);
@@ -257,7 +258,7 @@ public class RequestParams {
      * 设置application/json方式传递数据
      * @param jsonParams 请求的JSON实例
      */
-    public void applicationJson(JSONObject jsonParams){
+    public void applicationJson(JsonObject jsonParams){
         applicationJson = true;
         this.jsonParams = jsonParams;
     }
@@ -286,14 +287,15 @@ public class RequestParams {
         RequestBody body = null;
         if (applicationJson) {
             String json;
+            Gson gson = new Gson();
             if (jsonParams == null) {
-                JSONObject jsonObject = new JSONObject();
+                JsonObject jsonObject = new JsonObject();
                 for (Part part : params) {
-                    jsonObject.put(part.getKey(), part.getValue());
+                    jsonObject.addProperty(part.getKey(), part.getValue());
                 }
-                json = jsonObject.toJSONString();
+                json = gson.toJson(jsonObject);
             } else {
-                json = jsonParams.toJSONString();
+                json = gson.toJson(jsonParams);
             }
             body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
         } else if (requestBody != null) {

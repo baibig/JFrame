@@ -67,10 +67,6 @@ public class HttpRequestCallback<T> {
     public void onFailure(int errorCode, String msg) {
     }
 
-    public Headers getHeaders() {
-        return headers;
-    }
-
     protected void setResponseHeaders(Headers headers) {
         this.headers = headers;
     }
